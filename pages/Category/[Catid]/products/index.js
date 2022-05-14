@@ -1,7 +1,7 @@
 import React from "react";
 import Title from "../../../../Component/utils/Title";
 import Link from "next/link";
-import Sliders from "../../../../Component/utils/sliders";
+import Sliders from "../../../../Component/utils/Sliders";
 import BigTile from "../../../../Component/utils/BigTile";
 
 const products = () => {
