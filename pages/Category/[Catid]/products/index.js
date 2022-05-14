@@ -1,6 +1,5 @@
 import React from "react";
 import Title from "../../../../Component/utils/Title";
-import { useRouter } from "next/router";
 import Link from "next/link";
 import Sliders from "../../../../Component/utils/sliders";
 import BigTile from "../../../../Component/utils/BigTile";
@@ -19,12 +18,11 @@ const products = () => {
     { id: 9, name: "product8" },
   ];
 
-  const router = useRouter();
   return (
     <div className="flex flex-col ">
       <Title></Title>
       <p className="text-blue-900 text-base my-2 px-4">
-        <Link href="/">Categories </Link> / {router.query.Catid}/products (1222)
+        <Link href="/">Categories </Link> / sub-category/products (1222)
       </p>
       <h2 className="text-xl		 text-blue-900  font-semibold my-5 mx-3 px-4">
         New <span className="text-sky-400 font-semibold">products</span>
