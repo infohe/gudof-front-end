@@ -30,7 +30,7 @@ const products = () => {
       <Sliders></Sliders>
       <h2 className="text-xl		 text-blue-900  font-semibold my-5 mx-3 px-4">
         Result for
-        <span className="text-sky-400 font-semibold">{router.query.Catid}</span>
+        <span className="text-sky-400 font-semibold">name</span>
       </h2>
       <div className="grid grid-cols-1 grid-rows-6 gap-1 grid-flow-col mt-6 p-5">
         {Categories.map((Category) => (
