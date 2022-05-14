@@ -8,15 +8,15 @@ import Title from "../../../Component/utils/Title";
 const Category = () => {
   //dummy data
   const Categories = [
-    { id: 1, name: "Sensors" },
-    { id: 2, name: "Circuits" },
-    { id: 3, name: "Discrete-semicondutors" },
-    { id: 4, name: "Optoelectronics" },
-    { id: 5, name: "passive-components" },
-    { id: 6, name: "Circute-protection" },
-    { id: 7, name: "another" },
-    { id: 8, name: "another" },
-    { id: 9, name: "another" },
+    { id: 1, name: "product1" },
+    { id: 2, name: "product2" },
+    { id: 3, name: "product3" },
+    { id: 4, name: "product14" },
+    { id: 5, name: "product5" },
+    { id: 6, name: "product6" },
+    { id: 7, name: "product7" },
+    { id: 8, name: "product9" },
+    { id: 9, name: "product8" },
   ];
 
   const router = useRouter();
@@ -24,7 +24,7 @@ const Category = () => {
   return (
     <Fragment>
       <Title></Title>
-      <div className="flex flex-col  p-6" style={{ height: "80vh" }}>
+      <div className="flex flex-col  p-5" style={{ height: "80vh" }}>
         <p className="text-blue-900 text-lg mb-1">
           <Link href="/">Categories </Link> / {router.query.Catid} (1222)
         </p>

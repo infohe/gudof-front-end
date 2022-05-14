@@ -3,21 +3,14 @@ import React from "react";
 import { useRouter } from "next/router";
 const Tile = (props) => {
   const router = useRouter();
-
+  console.log(router.query);
   return (
-    <Link
-      href={{
-        pathname: "/Category/[Catid]/products",
-        query: { Catid: props.name },
-      }}
+    <div
+      className="flex flex-col items-center justify-center bg-teal-100  shadow-lg shadow-cyan-500/50 text-black	  "
+      style={{ height: "10rem", width: "10rem" }}
     >
-      <div
-        className="flex flex-col items-center justify-center bg-cyan-100  shadow-lg shadow-cyan-500/50 text-black	  "
-        style={{ height: "8rem", width: "8rem" }}
-      >
-        Tile
-      </div>
-    </Link>
+      Tile
+    </div>
   );
 };
 
