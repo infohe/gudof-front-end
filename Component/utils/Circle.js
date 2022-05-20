@@ -5,8 +5,8 @@ const Circle = () => {
     <Fragment>
       <div className="flex flex-col items-center justify-center">
         <div
-          className="flex flex-col items-center justify-center bg-blue-900 text-white rounded-full"
-          style={{ height: "5rem", width: "5rem" }}
+          className="flex flex-col items-center justify-center bg-sky-400 text-white rounded-full"
+          style={{ height: "7rem", width: "7rem" }}
         >
           Circle
         </div>

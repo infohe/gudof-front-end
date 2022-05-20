@@ -1,27 +1,23 @@
 import React from "react";
 import Token from "../utils/Token";
 
-const Category = () => {
-  const Categories = [
-    { id: 1, name: "Sensors" },
-    { id: 2, name: "Circuits" },
-    { id: 3, name: "Discrete semicondutors" },
-    { id: 4, name: "Optoelectronics" },
-    { id: 5, name: "passive components" },
-    { id: 6, name: "Circute protection" },
-    { id: 7, name: "another" },
-    { id: 8, name: "another" },
-    { id: 9, name: "another" },
-  ];
-
+const Category = (props) => {
+  const Categories = props.Categories;
   return (
-    <div className="flex flex-col gap-10 mt-20 p-6" style={{ height: "80vh" }}>
+    <div className="flex flex-col  p-6" style={{ height: "80vh" }}>
       <h2 className="text-xl		 text-blue-900  font-semibold">
         Search By <span className="text-sky-400 font-semibold">Categories</span>
       </h2>
-      <div className="grid grid-cols-3 grid-rows-3 grid-flow-col gap-14 mt-10">
+      <div
+        className="grid grid-cols-2 grid-rows-auto grid-flow-row  mt-10"
+        style={{ gap: "1rem" }}
+      >
         {Categories.map((Category) => (
-          <Token key={Category.id} name={Category.name}></Token>
+          <Token
+            key={Category.id}
+            name={Category.name}
+            Categories={Categories}
+          ></Token>
         ))}
       </div>
     </div>

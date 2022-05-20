@@ -21,7 +21,7 @@ const Sliders = () => {
   return (
     <Swiper
       modules={[Pagination]}
-      slidesPerView={1}
+      slidesPerView={3}
       pagination={{ clickable: true }}
       className="w-screen"
     >

@@ -2,13 +2,13 @@ import React from "react";
 import Image from "next/image";
 import img from "../../public/images/applications-image-07.jpg";
 
-function ShopCards07(props) {
+function ShopCards07() {
   return (
     <React.Fragment>
       {/* Card 1 */}
       <div
         className="col-span-full md:col-span-6 xl:col-span-4 bg-white shadow-lg rounded-sm border border-gray-200 overflow-hidden"
-        CancelPopUp={props.CancelPopUp}
+        // CancelPopUp={props.CancelPopUp}
       >
         <div className="flex flex-col h-full">
           {/* Image */}

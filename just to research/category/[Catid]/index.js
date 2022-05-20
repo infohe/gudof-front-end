@@ -1,22 +1,23 @@
 import React, { Fragment } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
+// import Circle from "../../../Component/utils/Circle";
+import TeamTabsCard from "../../../Component/Mosaic/TeamTabsCard";
 
-import Tile from "../../../Component/utils/Tile";
 import Title from "../../../Component/utils/Title";
 
 const Category = () => {
   //dummy data
   const Categories = [
-    { id: 1, name: "product1" },
-    { id: 2, name: "product2" },
-    { id: 3, name: "product3" },
-    { id: 4, name: "product14" },
-    { id: 5, name: "product5" },
-    { id: 6, name: "product6" },
-    { id: 7, name: "product7" },
-    { id: 8, name: "product9" },
-    { id: 9, name: "product8" },
+    { id: 1, name: "Sensors" },
+    { id: 2, name: "Circuits" },
+    // { id: 3, name: "Discrete-semicondutors" },
+    // { id: 4, name: "Optoelectronics" },
+    // { id: 5, name: "passive-components" },
+    // { id: 6, name: "Circute-protection" },
+    // { id: 7, name: "another" },
+    // { id: 8, name: "another" },
+    // { id: 9, name: "another" },
   ];
 
   const router = useRouter();
@@ -35,14 +36,14 @@ const Category = () => {
           quis.
         </p>
         <h2 className="text-xl		 text-blue-900  font-semibold mt-1">
-          Search In
+          Search In &nbsp;
           <span className="text-sky-400 font-semibold">
             {router.query.Catid}
           </span>
         </h2>
-        <div className="grid grid-cols-2 grid-rows-4 gap-1 grid-flow-col mt-10">
+        <div className="grid grid-cols-2 grid-rows-4 gap-1 grid-flow-row mt-10">
           {Categories.map((Category) => (
-            <Tile key={Category.id} name={Category.name}></Tile>
+            <TeamTabsCard key={Category.id} name={Category.name}></TeamTabsCard>
           ))}
         </div>
       </div>
