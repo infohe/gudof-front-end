@@ -1,23 +1,20 @@
-import React from "react";
+import React, { Fragment } from "react";
 import Filters from "../../Mosaic/Filters";
-import ClearRoundedIcon from "@mui/icons-material/ClearRounded";
 
 const Filterpop = () => {
+  const filters = [" View All ", "model", "manufactor", "Add new item"];
+
   return (
-    <div>
-      <div className="flex justify-between	">
+    <Fragment>
+      <div className="flex justify-center	">
         <svg className="w-6 h-6 fill-blue-500	 	" viewBox="0 0 16 16">
           <path d="M9 15H7a1 1 0 010-2h2a1 1 0 010 2zM11 11H5a1 1 0 010-2h6a1 1 0 010 2zM13 7H3a1 1 0 010-2h10a1 1 0 010 2zM15 3H1a1 1 0 010-2h14a1 1 0 010 2z" />
         </svg>
-        <ClearRoundedIcon
-          color="primary"
-          onClick={props.CancelPopUp}
-        ></ClearRoundedIcon>
       </div>
       <div>
-        <Filters></Filters>
+        <Filters filters={filters}></Filters>
       </div>
-    </div>
+    </Fragment>
   );
 };
 

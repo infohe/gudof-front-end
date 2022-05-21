@@ -6,8 +6,12 @@ import Sliders from "../../Component/utils/Sliders";
 import Filters from "../../Component/Mosaic/Filters";
 import ShopCards07 from "../../Component/Mosaic/ShopCards07";
 import Popup from "../../Component/utils/popup/Popup";
+import Pagination from "../../Component/utils/pagination";
 
 import { useRouter } from "next/router";
+import PaginationClassic from "../../Component/Mosaic/PaginationClassic";
+import { Backdrop } from "../../Component/utils/popup/Backdrop";
+import Filterpop from "../../Component/utils/popup/Filterpop";
 
 const products = () => {
   const router = useRouter();
@@ -16,10 +20,8 @@ const products = () => {
   const Categories = [
     { id: 1, name: "product1" },
     { id: 2, name: "product2" },
-    { id: 3, name: "product3" },
-    { id: 4, name: "product14" },
-    { id: 5, name: "product5" },
   ];
+
   const [IsOpen, setIsOpen] = useState(false);
 
   const SetPopUp = () => {
@@ -31,20 +33,31 @@ const products = () => {
 
   return (
     <Fragment>
-      <div className="bg-slate-100	h-screen relative ">
+      <div className="flex flex-col bg-slate-100	 relative ">
         <Title></Title>
         <div className="p-2">
           <Filters SetPopUp={SetPopUp}></Filters>
           <div className="text-sm text-gray-500 italic mb-4">67.975 Items</div>
         </div>
-        <ShopCards07 onClick={CancelPopUp}></ShopCards07>
+        {Categories.map((Category, i) => (
+          <ShopCards07 onClick={CancelPopUp} key={i}></ShopCards07>
+        ))}
+        {/* <PaginationClassic></PaginationClassic> */}
+        <Pagination></Pagination>
 
-        {IsOpen && <Popup CancelPopUp={CancelPopUp}></Popup>}
+        {IsOpen && (
+          <Popup CancelPopUp={CancelPopUp}>
+            <Filterpop SetPopUp={SetPopUp}></Filterpop>
+          </Popup>
+        )}
+        {IsOpen && <Backdrop CancelPopUp={CancelPopUp}></Backdrop>}
       </div>
-      <h2 className="text-xl		 text-blue-900  font-semibold my-5 mx-3 px-4">
-        Our <span className="text-sky-400 font-semibold">manufactor</span>
-      </h2>
-      <Sliders></Sliders>
+      <div>
+        <h2 className="text-xl		 text-blue-900  font-semibold my-4 ml-3 ">
+          Our <span className="text-sky-400 font-semibold">manufactor</span>
+        </h2>
+        <Sliders></Sliders>
+      </div>
     </Fragment>
   );
 };

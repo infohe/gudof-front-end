@@ -1,11 +1,11 @@
 import React from "react";
 import Link from "next/link";
 
-const RecentSearch = () => {
+const RecentSearch = (props) => {
   return (
     <div>
       {/* Recent searches */}
-      <div className="mb-3 last:mb-0">
+      <div className="m-3 last:mb-0">
         <div className="text-xs font-semibold text-gray-400 uppercase px-2 mb-2">
           Recent searches
         </div>
@@ -117,6 +117,12 @@ const RecentSearch = () => {
             </div>
           </li>
         </ul>
+      </div>
+      <div
+        className="text-center bg-blue-900 py-1 text-white	"
+        onClick={props.CancelRecent}
+      >
+        Clear
       </div>
     </div>
   );

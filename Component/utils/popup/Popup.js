@@ -23,6 +23,7 @@ const Popup = (props) => {
           onClick={props.CancelPopUp}
         ></ClearRoundedIcon>
       </div>
+      {props.children}
     </div>
   );
 };

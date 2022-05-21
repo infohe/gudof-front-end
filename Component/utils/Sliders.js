@@ -20,27 +20,17 @@ const Sliders = () => {
 
   return (
     <Swiper
-      modules={[Pagination]}
+      // modules={[Pagination]}
       slidesPerView={3}
       pagination={{ clickable: true }}
       className="w-screen"
     >
       <div>
         {Categories.map((Category, i) => (
-          <SwiperSlide
-            key={i}
-            className="flex items:center justify:center bg-blue-200 mb-2"
-            style={{ width: "10rem", height: "12rem" }}
-          >
-            <div
-              className=" flex items:center justify:center bg-cyan-100 text-black"
-              style={{ width: "10rem" }}
-            >
-              Image
-            </div>
-            <div className="flex  flex-col ">
-              <h3>This is new product</h3>
-              <p>these are some specification of our new product</p>
+          <SwiperSlide key={i}>
+            <div className="flex 	flex-col	 shadow-lg rounded-sm border border-gray-200 mb-6  p-1 w-32	h-24 ">
+              <h2 className="font-medium	">manufactor</h2>
+              <p>Lorem ipsum dolor </p>
             </div>
           </SwiperSlide>
         ))}

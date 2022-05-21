@@ -1,5 +1,6 @@
 import { Fragment, useState } from "react";
 import Category from "../Component/Category.js/Category";
+import RecentSearch from "../Component/Mosaic/RecentSearch";
 import Search from "../Component/Searchform/Search";
 import { Backdrop } from "../Component/utils/popup/Backdrop";
 import Popup from "../Component/utils/popup/Popup";
@@ -18,12 +19,20 @@ export default function Home() {
     { id: 9, name: "another" },
   ];
   const [IsOpen, setIsOpen] = useState(false);
+  const [IsSearchOpen, setIsSearchOpen] = useState(false);
 
   const SetPopUp = () => {
     setIsOpen(true);
   };
   const CancelPopUp = () => {
     setIsOpen(false);
+    setIsSearchOpen(false);
+  };
+  const SetRecent = () => {
+    setIsSearchOpen(true);
+  };
+  const CancelRecent = () => {
+    setIsSearchOpen(false);
   };
 
   return (
@@ -43,7 +52,11 @@ export default function Home() {
           Gud<span className="text-sky-400 font-bold">of</span>
         </h1>
         {/* Search form */}
-        <Search></Search>
+        <Search SetRecent={SetRecent}></Search>
+        {IsSearchOpen && (
+          <RecentSearch CancelRecent={CancelRecent}></RecentSearch>
+        )}
+        {IsSearchOpen && <Backdrop CancelPopUp={CancelPopUp}></Backdrop>}
         <Slice
           text="select the product, model and manufacture"
           SetPopUp={SetPopUp}

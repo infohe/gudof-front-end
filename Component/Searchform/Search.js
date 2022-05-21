@@ -1,11 +1,11 @@
 import React, { useRef } from "react";
 
-const Search = () => {
+const Search = (props) => {
   const trigger = useRef(null);
   const searchContent = useRef(null);
   const searchInput = useRef(null);
   return (
-    <form style={{ width: "90%" }}>
+    <form style={{ width: "90%" }} onClick={props.SetRecent}>
       <div className="relative">
         <label htmlFor="modal-search" className="sr-only">
           Search
