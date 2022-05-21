@@ -8,14 +8,11 @@ import ShopCards07 from "../../Component/Mosaic/ShopCards07";
 import Popup from "../../Component/utils/popup/Popup";
 import Pagination from "../../Component/utils/pagination";
 
-import { useRouter } from "next/router";
 import PaginationClassic from "../../Component/Mosaic/PaginationClassic";
 import { Backdrop } from "../../Component/utils/popup/Backdrop";
 import Filterpop from "../../Component/utils/popup/Filterpop";
 
 const products = () => {
-  const router = useRouter();
-  const Category = router.query.Category;
   //dummy data
   const Categories = [
     { id: 1, name: "product1" },
