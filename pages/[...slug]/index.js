@@ -41,7 +41,7 @@ const products = () => {
 
         {IsOpen && (
           <Popup CancelPopUp={CancelPopUp}>
-            <Filterpop SetPopUp={SetPopUp}></Filterpop>
+            <Filterpop></Filterpop>
           </Popup>
         )}
         {IsOpen && <Backdrop CancelPopUp={CancelPopUp}></Backdrop>}
