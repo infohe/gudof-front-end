@@ -1,13 +1,10 @@
 import { Fragment, React, useState } from "react";
 import Title from "../../Component/utils/Title";
-// import Link from "next/link";
 import Sliders from "../../Component/utils/Sliders";
-
 import Filters from "../../Component/Mosaic/Filters";
 import ShopCards07 from "../../Component/Mosaic/ShopCards07";
 import Popup from "../../Component/utils/popup/Popup";
 import Pagination from "../../Component/utils/pagination";
-
 import PaginationClassic from "../../Component/Mosaic/PaginationClassic";
 import { Backdrop } from "../../Component/utils/popup/Backdrop";
 import Filterpop from "../../Component/utils/popup/Filterpop";
@@ -37,7 +34,7 @@ const products = () => {
           <div className="text-sm text-gray-500 italic mb-4">67.975 Items</div>
         </div>
         {Categories.map((Category, i) => (
-          <ShopCards07 onClick={CancelPopUp} key={i}></ShopCards07>
+          <ShopCards07 key={i}></ShopCards07>
         ))}
         {/* <PaginationClassic></PaginationClassic> */}
         <Pagination></Pagination>
