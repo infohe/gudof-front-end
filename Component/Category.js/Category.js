@@ -2,7 +2,7 @@ import React from "react";
 import Token from "../utils/Token";
 
 const Category = (props) => {
-  const Categories = props.Categories;
+  const Items = props.Items;
   return (
     <div className="flex flex-col  p-6" style={{ height: "80vh" }}>
       <h2 className="text-xl		 text-blue-900  font-semibold">
@@ -12,11 +12,11 @@ const Category = (props) => {
         className="grid grid-cols-2 grid-rows-auto grid-flow-row  mt-10"
         style={{ gap: "1rem" }}
       >
-        {Categories.map((Category) => (
+        {Items.map((item) => (
           <Token
-            key={Category.id}
-            name={Category.name}
-            Categories={Categories}
+            key={item.id}
+            name={item.title}
+            url={item.url}
           ></Token>
         ))}
       </div>

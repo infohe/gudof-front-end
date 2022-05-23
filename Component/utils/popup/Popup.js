@@ -11,6 +11,7 @@ const Popup = (props) => {
         padding: "1rem",
         width: "90%",
         height: "40vh",
+        zIndex: 5,
 
         bottom: 0,
         left: "50%",

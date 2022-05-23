@@ -1,4 +1,5 @@
-import { Fragment, React, useState } from "react";
+import { Fragment, useState, React } from "react";
+
 import Title from "../../Component/utils/Title";
 import Sliders from "../../Component/utils/Sliders";
 import Filters from "../../Component/Mosaic/Filters";
@@ -9,7 +10,7 @@ import PaginationClassic from "../../Component/Mosaic/PaginationClassic";
 import { Backdrop } from "../../Component/utils/popup/Backdrop";
 import Filterpop from "../../Component/utils/popup/Filterpop";
 
-const products = () => {
+const Products = () => {
   //dummy data
   const Categories = [
     { id: 1, name: "product1" },
@@ -56,4 +57,4 @@ const products = () => {
   );
 };
 
-export default products;
+export default Products;

@@ -1,9 +1,12 @@
 import React from "react";
 import Link from "next/link";
 const Token = (props) => {
-  let name = props.name.toLowerCase();
+  const url = props.url;
+
+  let name = props.name;
+
   return (
-    <Link href={`/${name}`}>
+    <Link href={`${url}`}>
       <div
         className="flex  justify-center  bg-cyan-100  shadow-lg shadow-cyan-500/50 text-black	 rounded relative"
         style={{ height: "8rem", width: "11rem" }}
@@ -15,7 +18,7 @@ const Token = (props) => {
           1
         </div>
 
-        <h4 className="self-end m-2	">Token</h4>
+        <h4 className="self-end m-2	">{name}</h4>
       </div>
     </Link>
   );

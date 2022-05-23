@@ -3,6 +3,7 @@ import Image from "next/image";
 import img from "../../public/images/applications-image-07.jpg";
 import Sliders from "../utils/Sliders";
 import Fold from "../utils/Fold";
+import { Backdrop } from "../utils/popup/Backdrop";
 
 function ShopCards07() {
   const [IsDetailOpen, SetIsDetailOpen] = useState(false);
@@ -10,7 +11,7 @@ function ShopCards07() {
   const DetailOpen = () => {
     SetIsDetailOpen(true);
   };
-  const CloseDetail = () => {
+  const CancelPopUp = () => {
     SetIsDetailOpen(false);
   };
   return (
@@ -133,28 +134,31 @@ function ShopCards07() {
           </div>
         </div>
       </div>
-      {IsDetailOpen && (
-        <div className="flex justify-between bg-white text-blue-900 p-1">
-          <h2> More details</h2>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth={1}
-            onClick={CloseDetail}
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M5 15l7-7 7 7"
-            />
-          </svg>
-        </div>
-      )}
-      {IsDetailOpen && <Sliders></Sliders>}
-      {IsDetailOpen && <Fold></Fold>}
+      <div className="z-10">
+        {IsDetailOpen && (
+          <div className="flex justify-between bg-white text-blue-900 p-1">
+            <h2> More details</h2>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={1}
+              onClick={CancelPopUp}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M5 15l7-7 7 7"
+              />
+            </svg>
+          </div>
+        )}
+        {IsDetailOpen && <Sliders></Sliders>}
+        {IsDetailOpen && <Fold></Fold>}
+      </div>
+      {IsDetailOpen && <Backdrop CancelPopUp={CancelPopUp}></Backdrop>}
       {/* Card 1 */}
     </React.Fragment>
   );

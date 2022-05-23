@@ -28,7 +28,7 @@ const Sliders = () => {
       <div>
         {Categories.map((Category, i) => (
           <SwiperSlide key={i}>
-            <div className="flex 	flex-col	 shadow-lg rounded-sm border border-gray-200 mb-6  p-1 w-32	h-24 ">
+            <div className="flex 	flex-col	 shadow-lg rounded-sm border border-gray-200 mb-6  p-1 w-32	h-24 	">
               <h2 className="font-medium	">manufactor</h2>
               <p>Lorem ipsum dolor </p>
             </div>
