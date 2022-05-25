@@ -14,7 +14,7 @@ const Tile = (props) => {
         {props.text}
         <div style={{ alignSelf: "flex-end" }}>
           <button
-            className="bg-blue-900 py-1 px-3 rounded text-white 	"
+            className="bg-blue-900 py-1 px-3 rounded text-white mt-3	"
             onClick={props.SetPopUp}
           >
             Advanced Search

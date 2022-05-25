@@ -9,7 +9,8 @@ const Token = (props) => {
     <Link href={`${url}`}>
       <div
         className="flex  justify-center  bg-cyan-100  shadow-lg shadow-cyan-500/50 text-black	 rounded relative"
-        style={{ height: "8rem", width: "10rem" }}
+        // style={{ height: "8rem", width: "16rem" }}
+        style={{ height: "8rem" }}
       >
         <div
           className="flex  items-center justify-center bg-white rounded-full   absolute mb-16  border-solid border-2 border-blue-900	  "
@@ -18,7 +19,7 @@ const Token = (props) => {
           1
         </div>
 
-        <h4 className="self-end m-2	 text-xs		">{name}</h4>
+        <h4 className="self-end m-2	 text-base		">{name}</h4>
       </div>
     </Link>
   );
