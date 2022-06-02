@@ -20,6 +20,7 @@ import BbPromise from "bluebird";
 import { uniqBy } from "lodash";
 
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
+import SliderBrands from "../../Component/utils/SliderBrands";
 
 const url = "https://gudof-backoffice-api.herokuapp.com/graphql";
 
@@ -221,6 +222,7 @@ const Products = (props) => {
   const CancelPopUp = () => {
     setIsOpen(false);
   };
+  const Manufactors = ["Manufactors 1", "Manufactors 2", "Manufactors 3"];
 
   return (
     <Fragment>
@@ -257,7 +259,8 @@ const Products = (props) => {
           <h2 className="text-xl		 text-blue-900  font-semibold my-4 ml-3 ">
             Our <span className="text-sky-400 font-semibold">manufactor</span>
           </h2>
-          <Sliders></Sliders>
+          {/* <Sliders Manufactors={Manufactors}></Sliders> */}
+          <SliderBrands Manufactors={Manufactors}></SliderBrands>
         </div>
       </div>
     </Fragment>

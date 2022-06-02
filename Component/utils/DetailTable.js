@@ -10,7 +10,7 @@ const DetailTable = (props) => {
   return (
     <Fragment>
       {entries.map((entry, i) => (
-        <div className="grid grid-cols-2	auto-cols-fr 	">
+        <div className="grid grid-cols-2	auto-cols-fr  text-sm		">
           <div className="shadow-sm rounded-sm border border-gray-200 p-2">
             {entry[0]}
           </div>
