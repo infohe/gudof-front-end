@@ -5,7 +5,10 @@ import Sliders from "../utils/Sliders";
 import Fold from "../utils/Fold";
 import { Backdrop } from "../utils/popup/Backdrop";
 
-function ShopCards07() {
+function ShopCards07(props) {
+  const productDetails = props.productDetails;
+
+  console.log(productDetails);
   const [IsDetailOpen, SetIsDetailOpen] = useState(false);
 
   const DetailOpen = () => {
@@ -23,7 +26,7 @@ function ShopCards07() {
         className="flex  bg-white shadow-lg rounded-sm border border-gray-200 overflow-hidden"
       >
         {/* Image */}
-        <div className="relative flex items-center	justify-center	">
+        <div className="relative flex items-center	justify-center w-1/2		">
           <Image
             className="w-full"
             src={img}
@@ -54,18 +57,16 @@ function ShopCards07() {
             </div> */}
         </div>
         {/* Card Content */}
-        <div className="grow flex flex-col justify-center px-4 py-1">
+        <div className=" flex flex-col justify-center px-4 py-1">
           {/* Card body */}
-          <div className="grow">
+          <div className="">
             <header className="mb-2">
               <a href="#0">
                 <h3 className="text-lg text-gray-800 font-semibold mb-1">
-                  Form Builder CP
+                  {productDetails.title}
                 </h3>
               </a>
-              <div className="text-sm">
-                Lorem ipsum dolor sit amet adipiscing elit, sed do eiusmod.
-              </div>
+              <div className="text-sm">{productDetails.application}</div>
             </header>
           </div>
           {/* Rating and price */}
@@ -134,10 +135,10 @@ function ShopCards07() {
           </div>
         </div>
       </div>
-      <div className="z-10">
+      <div className="relative z-40">
         {IsDetailOpen && (
-          <div className="flex justify-between bg-white text-blue-900 p-1">
-            <h2> More details</h2>
+          <div className="flex  justify-between bg-white text-blue-900 p-1 ">
+            <h2> Details</h2>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-6 w-6"
@@ -155,8 +156,8 @@ function ShopCards07() {
             </svg>
           </div>
         )}
-        {IsDetailOpen && <Sliders></Sliders>}
-        {IsDetailOpen && <Fold></Fold>}
+        {IsDetailOpen && <Sliders productDetails={productDetails}></Sliders>}
+        {IsDetailOpen && <Fold productDetails={productDetails}></Fold>}
       </div>
       {IsDetailOpen && <Backdrop CancelPopUp={CancelPopUp}></Backdrop>}
       {/* Card 1 */}

@@ -5,14 +5,13 @@ import Token from "../utils/Token";
 const Category = (props) => {
   const Items = props.Items;
   return (
-    <div className="flex flex-col  p-6" style={{ height: "80vh" }}>
-      <h2 className="text-xl		 text-blue-900  font-semibold">
+    <div className="flex flex-col  p-6 h-4/5 lg:mt-10">
+      <h2 className="text-xl lg:text-4xl			 text-blue-900  font-semibold lg:font-bold	">
         Search By <span className="text-sky-400 font-semibold">Categories</span>
       </h2>
       <div
-        className="grid grid-cols-2 grid-rows-auto grid-flow-row  mt-10"
+        className="grid grid-cols-2 grid-rows-auto grid-flow-row gap-4	 mt-10 lg:grid-cols-5"
         // className="flex flex-col mt-10"
-        style={{ gap: "1rem" }}
       >
         {Items.map((item) => (
           <Token key={item.id} name={item.title} url={item.url}></Token>

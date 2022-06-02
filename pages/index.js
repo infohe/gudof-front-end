@@ -1,8 +1,7 @@
 //********************* */
 //All imports
 //********************** */
-import { Fragment, useState } from "react";
-import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
+import { Fragment, useState, useEffect } from "react";
 import { Backdrop } from "../Component/utils/popup/Backdrop";
 // import { getCategories } from "../Helpers/apiutils";
 
@@ -15,29 +14,21 @@ import Popup from "../Component/utils/popup/Popup";
 import Slice from "../Component/utils/Slice";
 
 //******************* */
-//use helpers
+//use gql
 ///////////////////////
-
-// export const getServerSideProps = async (context) => {
-//   //   const categories = await getCategories();
-//   //   return {
-//   //     props: { categories },
-//   //   };
-//   // };
-//********************* */
-//gql config
-//********************** */
+import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 
 const url = "https://gudof-backoffice-api.herokuapp.com/graphql";
+
 const client = new ApolloClient({
   uri: url,
   cache: new InMemoryCache(),
 });
 
-export const getServerSideProps = async (context) => {
+export async function getStaticProps(context) {
   const query = gql`
     query categories {
-      categories(filter: { parentUrl: "/" }) {
+      categories {
         edges {
           node {
             _id
@@ -64,8 +55,9 @@ export const getServerSideProps = async (context) => {
 
   return {
     props: { categories },
+    revalidate: 10,
   };
-};
+}
 
 //********************* */
 //Home page
@@ -100,27 +92,29 @@ export default function Home(props) {
           content="Find a lot of great tools that allow you to evolve...{add descriptions about gudof]"
         />
       </Head>
-      <div
-        className="flex  flex-col items-center justify-center  w-full   	"
-        // style={{ height: "0vh" }}
-      >
-        <h1 className="text-3xl text-blue-900 font-bold	 my-8			">
-          Gud<span className="text-sky-400 font-bold">of</span>
-        </h1>
-        {/* Search form */}
-        <Search SetRecent={SetRecent}></Search>
-        {IsSearchOpen && (
-          <RecentSearch CancelRecent={CancelRecent}></RecentSearch>
-        )}
-        {IsSearchOpen && <Backdrop CancelPopUp={CancelPopUp}></Backdrop>}
-        <Slice
-          text="select the product, model and manufacture"
-          SetPopUp={SetPopUp}
-        ></Slice>
+      <div className="lg:m-20 ">
+        <div
+          className="flex  flex-col items-center justify-center  w-full "
+          // style={{ height: "0vh" }}
+        >
+          <h1 className="text-3xl text-blue-900 font-bold	 my-8	 lg:text-6xl					">
+            Gud<span className="text-sky-400 font-bold">of</span>
+          </h1>
+          {/* Search form */}
+          <Search SetRecent={SetRecent}></Search>
+          {IsSearchOpen && (
+            <RecentSearch CancelRecent={CancelRecent}></RecentSearch>
+          )}
+          {IsSearchOpen && <Backdrop CancelPopUp={CancelPopUp}></Backdrop>}
+          <Slice
+            text="Select the product, model, manufactor and more"
+            SetPopUp={SetPopUp}
+          ></Slice>
+        </div>
+        <Category Items={Items}></Category>
+        {IsOpen && <Popup CancelPopUp={CancelPopUp}></Popup>}
+        {IsOpen && <Backdrop CancelPopUp={CancelPopUp}></Backdrop>}
       </div>
-      <Category Items={Items}></Category>
-      {IsOpen && <Popup CancelPopUp={CancelPopUp}></Popup>}
-      {IsOpen && <Backdrop CancelPopUp={CancelPopUp}></Backdrop>}
     </Fragment>
   );
 }

@@ -1,4 +1,9 @@
-import React, { Fragment } from "react";
+import * as React from "react";
+import { uniqBy } from "lodash";
+
+import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
+import BbPromise from "bluebird";
+
 import { useRouter } from "next/router";
 import Link from "next/link";
 // import Circle from "../../../Component/utils/Circle";
@@ -6,7 +11,10 @@ import TeamTabsCard from "../../Component/Mosaic/TeamTabsCard";
 
 import Title from "../../Component/utils/Title";
 
-const Category = () => {
+///////////////////////////////
+
+const Category = (props) => {
+  console.log(props);
   const router = useRouter();
   const Category = router.query.category;
   //dummy data
@@ -23,9 +31,9 @@ const Category = () => {
   ];
 
   return (
-    <Fragment>
+    <React.Fragment>
       <Title></Title>
-      <div className="flex flex-col  p-5" style={{ height: "80vh" }}>
+      <div className="flex flex-col  p-5 h-4/5	">
         <p className="text-blue-900 text-lg mb-1">
           <Link href="/">Categories</Link>/{Category} (1222)
         </p>
@@ -49,7 +57,7 @@ const Category = () => {
           ))}
         </div>
       </div>
-    </Fragment>
+    </React.Fragment>
   );
 };
 

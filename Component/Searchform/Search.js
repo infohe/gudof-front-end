@@ -5,18 +5,14 @@ const Search = (props) => {
   const searchContent = useRef(null);
   const searchInput = useRef(null);
   return (
-    <form style={{ width: "90%" }} onClick={props.SetRecent}>
+    <form className="w-11/12	" onClick={props.SetRecent}>
       <div className="relative">
         <label htmlFor="modal-search" className="sr-only">
           Search
         </label>
         <input
           id="modal-search"
-          className="w-full border-0 focus:outline-transparent rounded-full placeholder-gray-400 shadow-lg shadow-blue-300/30  appearance-none py-1.5 pl-10 pr-4 "
-          style={{
-            color: "#1e3a8a ",
-            border: "1px solid #1e3a8a",
-          }}
+          className="w-full  focus:outline-transparent rounded-full placeholder-gray-400 shadow-lg  border-solid border border-blue-900 shadow-blue-300/30  appearance-none py-1.5 pl-10 pr-4 "
           type="search"
           placeholder="Search by keywords, techspecs"
           ref={searchInput}

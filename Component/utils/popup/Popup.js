@@ -4,20 +4,7 @@ import ClearRoundedIcon from "@mui/icons-material/ClearRounded";
 
 const Popup = (props) => {
   return (
-    <div
-      className="flex flex-col gap-2 bg-cyan-50	 shadow-2xl	 text-white p-2 fixed "
-      style={{
-        borderRadius: "20px 20px 0 0",
-        padding: "1rem",
-        width: "90%",
-        height: "40vh",
-        zIndex: 5,
-
-        bottom: 0,
-        left: "50%",
-        transform: "translateX(-50%)",
-      }}
-    >
+    <div className="flex flex-col  gap-2 bg-cyan-50	rounded-t-3xl	p-4 h-2/5 left-2/4	-translate-x-1/2			inset-x-auto		z-40	bottom-0		 w-11/12		 shadow-2xl	 text-white p-2 fixed ">
       <div className="flex justify-end	">
         <ClearRoundedIcon
           color="primary"

@@ -3,15 +3,7 @@ import React from "react";
 export const Backdrop = (props) => {
   return (
     <div
-      style={{
-        height: "100vh",
-        width: "100vw",
-        backgroundColor: "transparent",
-        position: "fixed",
-        top: "0",
-        left: "0",
-        zIndex: "3",
-      }}
+      className=" h-screen w-screen bg-transparent opacity-50 	fixed	 top-0	left-0	z-10	"
       onClick={props.CancelPopUp}
     ></div>
   );

@@ -7,14 +7,8 @@ const Token = (props) => {
 
   return (
     <Link href={`${url}`}>
-      <div
-        className="flex  justify-center  bg-cyan-100  shadow-lg shadow-cyan-500/50 text-black	 rounded relative"
-        style={{ height: "8rem", width: "10rem" }}
-      >
-        <div
-          className="flex  items-center justify-center bg-white rounded-full   absolute mb-16  border-solid border-2 border-blue-900	  "
-          style={{ height: "5rem", width: "5rem" }}
-        >
+      <div className="flex  justify-center w-full	 h-40 lg:w-11/12 h-40			my-1	lg:my-3	 bg-cyan-100  shadow-lg shadow-cyan-400/50 text-black	 rounded relative">
+        <div className="flex  items-center w-20	h-20 justify-center bg-white rounded-full   absolute mb-16  border-solid border-2 border-blue-900	  ">
           1
         </div>
 

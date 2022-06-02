@@ -3,9 +3,9 @@ import Link from "next/link";
 
 const RecentSearch = (props) => {
   return (
-    <div>
+    <div className="	lg:w-11/12			">
       {/* Recent searches */}
-      <div className="m-3 last:mb-0">
+      <div className="m-3 last:mb-0 max-w-7xl">
         <div className="text-xs font-semibold text-gray-400 uppercase px-2 mb-2">
           Recent searches
         </div>
@@ -79,7 +79,7 @@ const RecentSearch = (props) => {
         </ul>
       </div>
       {/* Recent pages */}
-      <div className="mb-3 last:mb-0">
+      <div className="mb-3 last:mb-0 max-w-7xl">
         <div className="text-xs font-semibold text-gray-400 uppercase px-2 mb-2">
           Recent pages
         </div>

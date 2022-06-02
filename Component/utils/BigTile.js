@@ -5,10 +5,7 @@ const Tile = (props) => {
   const router = useRouter();
   console.log(router.query);
   return (
-    <div
-      className="flex flex-col items-center justify-center bg-teal-100  shadow-lg shadow-cyan-500/50 text-black	  "
-      style={{ height: "10rem", width: "10rem" }}
-    >
+    <div className="flex flex-col items-center justify-center h-40	w-40 bg-teal-100  shadow-lg shadow-cyan-500/50 text-black	  ">
       Tile
     </div>
   );

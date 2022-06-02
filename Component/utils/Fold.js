@@ -1,6 +1,8 @@
 import React, { useState } from "react";
+import DetailTable from "./DetailTable";
 
-const Fold = () => {
+const Fold = (props) => {
+  console.log(props.productDetails);
   const [IsIconOpen, SetIsIconOpen] = useState(false);
   const OpenIcon = () => {
     SetIsIconOpen(true);
@@ -10,11 +12,10 @@ const Fold = () => {
   };
 
   return (
-    <div className="flex flex-col shadow-lg rounded-sm border border-gray-200 p-3">
+    <div className="flex flex-col shadow-lg   rounded-sm border border-gray-200 p-3 z-40">
       <div className=" flex  justify-between items-center	  ">
         <div>
-          <h3 className="font-medium">details</h3>
-          <p>description</p>
+          <h3 className="font-medium mb-3">More Details</h3>
         </div>
         {!IsIconOpen && (
           <svg
@@ -51,7 +52,9 @@ const Fold = () => {
           </svg>
         )}
       </div>
-      {IsIconOpen && <div className="">here we add more details</div>}
+      {IsIconOpen && (
+        <DetailTable productDetails={props.productDetails}></DetailTable>
+      )}
     </div>
   );
 };

@@ -23,7 +23,7 @@ const Filters = (props) => {
               className="inline-flex items-center justify-center text-sm font-medium leading-5 rounded-full px-3 py-1 border border-gray-200 hover:border-gray-300 shadow-m bg-white text-gray-500 duration-150 ease-in-out "
               onClick={props.SetPopUp}
             >
-              Add new FiltersOFFICIAL#2791108
+              Add new Filters
             </button>
           </li>
         </ul>
