@@ -1,12 +1,9 @@
 //********************* */
-//All imports
+//    All imports
 //********************** */
-import { Fragment, useState, useEffect } from "react";
+import { Fragment, useState } from "react";
 import { Backdrop } from "../Component/utils/popup/Backdrop";
-// import { getCategories } from "../Helpers/apiutils";
-
 import Head from "next/head";
-
 import Category from "../Component/Category.js/Category";
 import RecentSearch from "../Component/Mosaic/RecentSearch";
 import Search from "../Component/Searchform/Search";
@@ -14,8 +11,8 @@ import Popup from "../Component/utils/popup/Popup";
 import Slice from "../Component/utils/Slice";
 
 //******************* */
-//use gql
-///////////////////////
+//   use gql
+//******************  */
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 
 const url = "https://gudof-backoffice-api.herokuapp.com/graphql";
@@ -24,27 +21,25 @@ const client = new ApolloClient({
   uri: url,
   cache: new InMemoryCache(),
 });
-
 export async function getStaticProps(context) {
   const query = gql`
-    query categories {
-      categories {
+    query Page {
+      pages(filter: { parentUrl: "/" }) {
         edges {
           node {
             _id
-            slug
-            desc
             title
+            type
+            desc
             url
           }
         }
       }
     }
   `;
-
   const { data } = await client.query({ query });
 
-  const categories = data.categories.edges.map(({ node }) => {
+  const categories = data.pages.edges.map(({ node }) => {
     return {
       id: node._id,
       title: node.title,
@@ -52,15 +47,15 @@ export async function getStaticProps(context) {
       url: node.url,
     };
   });
-
   return {
-    props: { categories },
-    revalidate: 10,
+    props: {
+      categories: categories,
+    },
   };
 }
 
 //********************* */
-//Home page
+//  Home page
 //********************** */
 
 export default function Home(props) {
