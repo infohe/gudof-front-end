@@ -1,13 +1,9 @@
 import * as React from "react";
-import Link from "next/link";
-// import Circle from "../../../Component/utils/Circle";
-import TeamTabsCard from "../../Component/Mosaic/TeamTabsCard";
-
 import Title from "../../Component/utils/Title";
+import CategoryPage from "../CategoryPage";
+import ProductPage from "../ProductPage";
 
-/////////////////////////////////
-//test data
-//////////////////////////////
+//*** Data fetching *****/
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 
 const url = "https://gudof-backoffice-api.herokuapp.com/graphql";
@@ -16,22 +12,33 @@ const client = new ApolloClient({
   uri: url,
   cache: new InMemoryCache(),
 });
-export async function getStaticProps(context) {
-  console.log(context.params.items.length);
-  let combo = context.params.items;
-  let EndPoint = "";
-  if (combo.length == 1) {
-    EndPoint = context.params.items[0];
-  } else {
-    EndPoint = context.params.items.join("/");
-  }
 
-  let SubCategories = {};
-  if (EndPoint != "favicon.ico") {
-    console.log(EndPoint);
+//  fetch data
+
+export async function getStaticProps(context) {
+  let AllParems = context.params.items;
+  let Endpoint = "";
+
+  if (AllParems.length == 1) {
+    Endpoint = context.params.items[0];
+  } else {
+    Endpoint = context.params.items.join("/");
+  }
+  Endpoint = `/${Endpoint}`;
+
+  // global variables
+
+  let PageType = "";
+  let Output = {};
+  let ProductReady = {};
+
+  //avoid favicon and fetch data
+
+  if (Endpoint != "favicon.ico") {
+    console.log(Endpoint);
     const query = gql`
       query Page {
-        pages(filter: { parentUrl: "/${EndPoint}" }) {
+        pages(filter: { parentUrl: "${Endpoint}" }) {
           edges {
             node {
               _id
@@ -46,47 +53,67 @@ export async function getStaticProps(context) {
       }
     `;
     const { data } = await client.query({ query });
+    const page = (await client.query({ query: query })).data.pages.edges[0]
+      .node;
+    PageType = page.type;
 
-    SubCategories = data.pages.edges.map(({ node }) => {
-      return {
-        id: node._id,
-        title: node.title,
-        desc: node.desc,
-        url: node.url,
-        type: node.type,
-        parentUrl: node.parentUrl,
-      };
-    });
-  }
-  //////////////
-  const query = gql`
-    query Page {
-      category (filter: { url: "/${EndPoint}" }) {
-          
-        _id
-        desc
-        title
-        url
-      
+    //fetch pagedetails by category or product
 
-  }
+    if (PageType === "Category") {
+      Output = data.pages.edges.map(({ node }) => {
+        return {
+          id: node._id,
+          title: node.title,
+          desc: node.desc,
+          url: node.url,
+          type: node.type,
+          parentUrl: node.parentUrl,
+        };
+      });
+    } else if (PageType === "Product") {
+      Output = data.pages.edges.map(({ node }) => {
+        return {
+          id: node._id,
+          title: node.title,
+          desc: node.desc,
+          url: node.url,
+          type: node.type,
+          parentUrl: node.parentUrl,
+        };
+      });
 
+      //      get product specific details
     }
-  `;
+  }
+
+  //  get parent Category details /
+
+  const query = gql`
+   query Page {
+     category (filter: { url: "${Endpoint}" }) {  
+       _id
+       desc
+       title
+       url
+      }
+   }
+ `;
   const { data } = await client.query({ query });
 
-  // const EndPoint = context.params.items[0];
   return {
     props: {
-      SubCategories: SubCategories,
+      Output: Output,
       data: data,
+      PageType: PageType,
+      ProductReady: ProductReady,
     },
 
-    revalidate: 10, // In seconds
+    // revalidate: 10, // In seconds
   };
 }
 
-////////////////////////
+//   Main function
+
 export async function getStaticPaths() {
   return {
     paths: [
@@ -95,38 +122,26 @@ export async function getStaticPaths() {
     fallback: "blocking", // See the "fallback" section below
   };
 }
-///////////////
+
+//page function starting
 
 const Index = (props) => {
-  const Categories = props.SubCategories;
+  const Categories = props.Output;
+  const ProductReady = props.ProductReady;
   const data = props.data;
-  console.log(data.category);
 
   return (
     <React.Fragment>
       <Title></Title>
-      <div className="flex flex-col  p-5 h-4/5	">
-        <p className="text-blue-900 text-lg mb-1">
-          <Link href="/">Categories</Link>/{data.category.title} (1222)
-        </p>
-        <p className="mb-1 text-sm">{data.category.desc}</p>
-        <h2 className="text-xl		 text-blue-900  font-semibold mt-1">
-          Search In &nbsp;
-          <span className="text-sky-400 font-semibold">
-            {data.category.url}
-          </span>
-        </h2>
-        <div className="grid grid-cols-2 grid-rows-4 gap-1 grid-flow-row mt-10">
-          {Categories.map((Category, i) => (
-            <TeamTabsCard
-              key={i}
-              title={Category.title}
-              url={Category.url}
-              Categories={Categories}
-            ></TeamTabsCard>
-          ))}
-        </div>
-      </div>
+      {props.PageType === "Category" ? (
+        <CategoryPage Categories={Categories} ParentData={data}></CategoryPage>
+      ) : (
+        // <h1>will show</h1>
+        <ProductPage
+          ProductReady={ProductReady}
+          Categories={Categories}
+        ></ProductPage>
+      )}
     </React.Fragment>
   );
 };

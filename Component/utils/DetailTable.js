@@ -2,11 +2,22 @@ import React, { Fragment } from "react";
 
 const DetailTable = (props) => {
   let entries = [];
-  if (props.productDetails) {
-    console.log(props.productDetails);
+  if (props.ProductReady) {
+    console.log(props.ProductReady);
 
-    entries = Object.entries(props.productDetails);
+    entries = Object.entries(props.ProductReady);
   }
+  console.log(entries);
+  const CheckProperty = (Property) => {
+    if (typeof Property === "string") {
+      return Property;
+    } else {
+      console.log(Property);
+
+      return "will come";
+    }
+  };
+
   const SentenceCase = (text) => {
     let result = text.replace(/([A-Z])/g, " $1");
     let finalResult = result.charAt(0).toUpperCase() + result.slice(1);
@@ -20,7 +31,7 @@ const DetailTable = (props) => {
             {SentenceCase(entry[0])}
           </div>
           <div className="shadow-sm rounded-sm border border-gray-200 p-2">
-            {SentenceCase(entry[1])}
+            {CheckProperty(entry[1])}
           </div>
         </div>
       ))}

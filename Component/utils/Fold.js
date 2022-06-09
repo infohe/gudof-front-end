@@ -53,7 +53,7 @@ const Fold = (props) => {
         )}
       </div>
       {IsIconOpen && (
-        <DetailTable productDetails={props.productDetails}></DetailTable>
+        <DetailTable ProductReady={props.ProductReady}></DetailTable>
       )}
     </div>
   );
