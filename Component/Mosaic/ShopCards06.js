@@ -2,34 +2,18 @@ import React, { Fragment, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import img from "../../public/images/applications-image-07.jpg";
-import Sliders from "../utils/Sliders";
-import Fold from "../utils/Fold";
-import { Backdrop } from "../utils/popup/Backdrop";
 
-function ShopCards07(props) {
-  const url = props.productUrl;
+function ShopCards06(props) {
+  const url = props.url;
   const Title = props.Title;
-  const productDetails = props.allDetails.productDetails;
 
-  // const pageType = props.pageType;
-  const [IsDetailOpen, SetIsDetailOpen] = useState(false);
-
-  const DetailOpen = () => {
-    SetIsDetailOpen(true);
-  };
-  const CancelPopUp = () => {
-    SetIsDetailOpen(false);
-  };
   return (
     <React.Fragment>
       {/* Card 1 */}
       <Fragment>
-        <div
-          onClick={DetailOpen}
-          className="flex  bg-white shadow-lg rounded-sm border border-gray-200 overflow-hidden"
-        >
+        <div className="flex  bg-white shadow-lg rounded-sm border border-gray-200 overflow-hidden">
           {/* Image */}
-          <div className="relative flex items-center	justify-center w-48			">
+          <div className="relative flex items-center	justify-center w-48		">
             <Image
               className="w-full"
               src={img}
@@ -60,7 +44,7 @@ function ShopCards07(props) {
             </div> */}
           </div>
           {/* Card Content */}
-          <div className=" flex flex-col justify-center px-4 py-1 w-72	">
+          <div className=" flex flex-col justify-center px-4 py-1 w-72">
             {/* Card body */}
             <div className="">
               <header className="mb-2">
@@ -140,35 +124,10 @@ function ShopCards07(props) {
             </div>
           </div>
         </div>
-        <div className="relative z-40">
-          {IsDetailOpen && (
-            <div className="flex  justify-between bg-white text-blue-900 p-1 ">
-              <h2> Details</h2>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={1}
-                onClick={CancelPopUp}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M5 15l7-7 7 7"
-                />
-              </svg>
-            </div>
-          )}
-          {IsDetailOpen && <Sliders></Sliders>}
-          {IsDetailOpen && <Fold productDetails={productDetails}></Fold>}
-        </div>
-        {IsDetailOpen && <Backdrop CancelPopUp={CancelPopUp}></Backdrop>}
       </Fragment>
       {/* Card 1 */}
     </React.Fragment>
   );
 }
 
-export default ShopCards07;
+export default ShopCards06;
