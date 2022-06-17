@@ -1,15 +1,16 @@
 import React, { Fragment } from "react";
 
 const DetailTable = (props) => {
-  let entries = [];
-  if (props.ProductReady) {
-    console.log(props.ProductReady);
-
-    entries = Object.entries(props.ProductReady);
+  let entries = {};
+  if (props.productDetails) {
+    entries = Object.entries(props.productDetails);
   }
   console.log(entries);
   const CheckProperty = (Property) => {
     if (typeof Property === "string") {
+      if (Property === "undefined undefined") {
+        return (Property = "Null");
+      }
       return Property;
     } else {
       console.log(Property);
@@ -26,11 +27,14 @@ const DetailTable = (props) => {
   return (
     <Fragment>
       {entries.map((entry, i) => (
-        <div className="grid grid-cols-2	auto-cols-fr  text-sm		">
+        <div className="grid grid-cols-2	auto-cols-fr  text-sm		" key={i}>
           <div className="shadow-sm rounded-sm border border-gray-200 p-2">
             {SentenceCase(entry[0])}
           </div>
-          <div className="shadow-sm rounded-sm border border-gray-200 p-2">
+          <div
+            className="shadow-sm rounded-sm border border-gray-200 p-2"
+            key={i}
+          >
             {CheckProperty(entry[1])}
           </div>
         </div>

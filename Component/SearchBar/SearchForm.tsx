@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 
-const Search = (props) => {
+const SearchForm = (props) => {
   const trigger = useRef(null);
   const searchContent = useRef(null);
   const searchInput = useRef(null);
@@ -36,4 +36,4 @@ const Search = (props) => {
   );
 };
 
-export default Search;
+export default SearchForm;

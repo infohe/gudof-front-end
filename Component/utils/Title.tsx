@@ -1,5 +1,5 @@
 import React from "react";
-import Search from "../Searchform/Search";
+import Search from "../SearchBar/SearchForm";
 const header = () => {
   return (
     <div className="flex  items-center bg-blue-900 text-sky-50 h-16	p-4	">

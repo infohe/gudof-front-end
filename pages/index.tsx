@@ -2,18 +2,16 @@
 //    All imports
 //********************** */
 import { Fragment, useState } from "react";
-import { Backdrop } from "../Component/utils/popup/Backdrop";
+import { Backdrop } from "../Component/utils//popup/Backdrop";
 import Head from "next/head";
-import Category from "../Component/Category.js/Category";
+import CategoryItem from "../Component/Category.js/Category";
 import RecentSearch from "../Component/Mosaic/RecentSearch";
-import Search from "../Component/Searchform/Search";
+import Search from "../Component/SearchBar/SearchForm";
 import Popup from "../Component/utils/popup/Popup";
 import Slice from "../Component/utils/Slice";
-
-//******************* */
-//   use gql
-//******************  */
+import { NextPage } from "next";
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
+import { Categories, Category } from "../types";
 
 const url = "https://gudof-backoffice-api.herokuapp.com/graphql";
 
@@ -21,7 +19,8 @@ const client = new ApolloClient({
   uri: url,
   cache: new InMemoryCache(),
 });
-export async function getStaticProps(context) {
+
+export const getStaticProps = async () => {
   const query = gql`
     query Page {
       pages(filter: { parentUrl: "/" }) {
@@ -38,8 +37,7 @@ export async function getStaticProps(context) {
     }
   `;
   const { data } = await client.query({ query });
-
-  const categories = data.pages.edges.map(({ node }) => {
+  const categories: Categories = data.pages.edges.map(({ node }) => {
     return {
       id: node._id,
       title: node.title,
@@ -52,15 +50,10 @@ export async function getStaticProps(context) {
       categories: categories,
     },
   };
-}
+};
 
-//********************* */
-//  Home page
-//********************** */
-
-export default function Home(props) {
-  const Items = props.categories;
-
+const Home: NextPage = (props: Categories) => {
+  const Items: Category[] = props.categories;
   const [IsOpen, setIsOpen] = useState(false);
   const [IsSearchOpen, setIsSearchOpen] = useState(false);
 
@@ -77,7 +70,6 @@ export default function Home(props) {
   const CancelRecent = () => {
     setIsSearchOpen(false);
   };
-
   return (
     <Fragment>
       <Head>
@@ -97,6 +89,7 @@ export default function Home(props) {
           </h1>
           {/* Search form */}
           <Search SetRecent={SetRecent}></Search>
+
           {IsSearchOpen && (
             <RecentSearch CancelRecent={CancelRecent}></RecentSearch>
           )}
@@ -106,10 +99,11 @@ export default function Home(props) {
             SetPopUp={SetPopUp}
           ></Slice>
         </div>
-        <Category Items={Items}></Category>
+        <CategoryItem Items={Items}></CategoryItem>
         {IsOpen && <Popup CancelPopUp={CancelPopUp}></Popup>}
         {IsOpen && <Backdrop CancelPopUp={CancelPopUp}></Backdrop>}
       </div>
     </Fragment>
   );
-}
+};
+export default Home;
