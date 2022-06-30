@@ -1,12 +1,19 @@
-import { Fragment, useState, React } from "react";
+//  all imports
+
+import React from "react";
+import { Fragment, useState } from "react";
 import Filters from "../Component/Mosaic/Filters";
 import ShopCards07 from "../Component/Mosaic/ShopCards07";
 import Popup from "../Component/utils/popup/Popup";
 import Pagination from "../Component/utils/pagination";
 import { Backdrop } from "../Component/utils/popup/Backdrop";
-import Filterpop from "../Component/utils/popup/Filterpop";
+import FilterPop from "../Component/utils/popup/FilterPop";
+
+//  page function
 
 const Products = (props) => {
+  // states and methods
+
   let products = [];
   if (props.allDetails.products) {
     products = props.allDetails.products;
@@ -15,48 +22,58 @@ const Products = (props) => {
   }
 
   const allDetails = props.allDetails;
+  const pageType: string = props.pageType;
 
-  const pageType = props.pageType;
-
-  const [IsOpen, setIsOpen] = useState(false);
-  const SetPopUp = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const setPopUp = () => {
     setIsOpen(true);
   };
-  const CancelPopUp = () => {
+  const cancelPopUp = () => {
     setIsOpen(false);
   };
+
+  // function return
 
   return (
     <Fragment>
       <div className="">
         <div className="flex flex-col bg-slate-100	 relative  ">
           <div className="p-2 ">
-            <Filters SetPopUp={SetPopUp}></Filters>
+            <Filters setPopUp={setPopUp}></Filters>
             <div className="text-sm text-gray-500 italic mb-4">
               67.975 Items
             </div>
           </div>
+
+          {/* {show shop cards} */}
+
           <div>
             {products.map((product, i) => (
               <ShopCards07
                 key={i}
                 allDetails={allDetails}
                 products={products}
-                Title={product.title}
+                title={product.title}
                 productUrl={product.productUrl}
                 pageType={pageType}
               ></ShopCards07>
             ))}
           </div>
+
+          {/* {pagination} */}
+
           {/* <PaginationClassic></PaginationClassic> */}
           <Pagination paginateProducts={props.paginateProduct}></Pagination>
-          {IsOpen && (
-            <Popup CancelPopUp={CancelPopUp}>
-              <Filterpop></Filterpop>
+          {isOpen && (
+            <Popup cancelPopUp={cancelPopUp}>
+              <FilterPop></FilterPop>
             </Popup>
           )}
-          {IsOpen && <Backdrop CancelPopUp={CancelPopUp}></Backdrop>}
+          {isOpen && <Backdrop cancelPopUp={cancelPopUp}></Backdrop>}
         </div>
+
+        {/* {sliders } */}
+
         <div>
           <h2 className="text-xl		 text-blue-900  font-semibold my-4 ml-3 ">
             Our <span className="text-sky-400 font-semibold">manufacture</span>

@@ -1,6 +1,5 @@
-//********************* */
-//    All imports
-//********************** */
+//  All imports
+
 import { Fragment, useState } from "react";
 import { Backdrop } from "../Component/utils//popup/Backdrop";
 import Head from "next/head";
@@ -13,65 +12,99 @@ import { NextPage } from "next";
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 import { Categories, Category } from "../types";
 
-const url = "https://gudof-backoffice-api.herokuapp.com/graphql";
 
+// query 
+
+const url = "http://localhost:3333/graphql";
 const client = new ApolloClient({
   uri: url,
   cache: new InMemoryCache(),
 });
 
+
 export const getStaticProps = async () => {
   const query = gql`
-    query Page {
-      pages(filter: { parentUrl: "/" }) {
+    query pageConnection {
+      pageConnection(
+        sort: [url__keyword__asc]
+        query: { term: { parentUrl__keyword: { value: "/" } } }
+      ) {
+        pageInfo {
+          endCursor
+          startCursor
+        }
+        count
         edges {
           node {
-            _id
-            title
-            type
-            desc
-            url
+            _source {
+              url
+              title
+              parentUrl
+              desc
+              description
+              string_facet {
+                facet_name
+                facet_value
+              }
+            }
           }
         }
       }
     }
   `;
+
   const { data } = await client.query({ query });
-  const categories: Categories = data.pages.edges.map(({ node }) => {
+  const count = data.pageConnection.count;
+  const pageInfo = data.pageConnection.pageInfo;
+  const categories: Categories = data.pageConnection.edges.map((item) => {
     return {
-      id: node._id,
-      title: node.title,
-      desc: node.desc,
-      url: node.url,
+      title: item.node._source.title,
+      desc: item.node._source.desc,
+      url: item.node._source.url,
     };
   });
+
   return {
     props: {
-      categories: categories,
+      data: data,
+      pageInfo,
+      count,
+      categories,
     },
   };
 };
 
-const Home: NextPage = (props: Categories) => {
-  const Items: Category[] = props.categories;
-  const [IsOpen, setIsOpen] = useState(false);
-  const [IsSearchOpen, setIsSearchOpen] = useState(false);
 
-  const SetPopUp = () => {
+// main page component
+
+const Home: NextPage = (props: Categories) => {
+
+//  states and methods
+
+  const items: Category[] = props.categories;
+  const [isOpen, setIsOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+
+  const setPopUp = () => {
     setIsOpen(true);
   };
-  const CancelPopUp = () => {
+  const cancelPopUp = () => {
     setIsOpen(false);
     setIsSearchOpen(false);
   };
-  const SetRecent = () => {
+  const setRecent = () => {
     setIsSearchOpen(true);
   };
-  const CancelRecent = () => {
+  const cancelRecent = () => {
     setIsSearchOpen(false);
   };
+
+  // function return
+
+
   return (
     <Fragment>
+     
       <Head>
         <title>Gudof</title>
         <meta
@@ -79,29 +112,39 @@ const Home: NextPage = (props: Categories) => {
           content="Find a lot of great tools that allow you to evolve...{add descriptions about gudof]"
         />
       </Head>
+
       <div className="lg:m-20 ">
         <div
           className="flex  flex-col items-center justify-center  w-full "
-          // style={{ height: "0vh" }}
         >
-          <h1 className="text-3xl text-blue-900 font-bold	 my-8	 lg:text-6xl					">
+          <h1 className="text-3xl text-blue-900 font-bold	 my-8	 lg:text-6xl">
             Gud<span className="text-sky-400 font-bold">of</span>
           </h1>
-          {/* Search form */}
-          <Search SetRecent={SetRecent}></Search>
 
-          {IsSearchOpen && (
-            <RecentSearch CancelRecent={CancelRecent}></RecentSearch>
+          {/* Search form */}
+          <Search setRecent={setRecent}></Search>
+         
+          {/* recentSearch form */}
+          {isSearchOpen && (
+            <RecentSearch cancelRecent={cancelRecent}></RecentSearch>
           )}
-          {IsSearchOpen && <Backdrop CancelPopUp={CancelPopUp}></Backdrop>}
+
+           {/* backdrop */}
+          {isSearchOpen && <Backdrop cancelPopUp={cancelPopUp}></Backdrop>}
+        
+          {/* Advanced search */}
           <Slice
-            text="Select the product, model, manufactor and more"
-            SetPopUp={SetPopUp}
+            text="Select the product, model, manufactory and more"
+            setPopUp={setPopUp}
           ></Slice>
         </div>
-        <CategoryItem Items={Items}></CategoryItem>
-        {IsOpen && <Popup CancelPopUp={CancelPopUp}></Popup>}
-        {IsOpen && <Backdrop CancelPopUp={CancelPopUp}></Backdrop>}
+          
+          {/* categories */}
+        <CategoryItem items={items}></CategoryItem>
+
+
+        {isOpen && <Popup cancelPopUp={cancelPopUp}></Popup>}
+        {isOpen && <Backdrop cancelPopUp={cancelPopUp}></Backdrop>}
       </div>
     </Fragment>
   );

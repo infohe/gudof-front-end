@@ -1,6 +1,6 @@
 import React from "react";
 
-function PaginationClassic() {
+function PaginationClassic(props) {
   return (
     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-4">
       <nav
@@ -13,7 +13,6 @@ function PaginationClassic() {
             <a
               className="btn bg-white border-gray-200 text-gray-300 cursor-not-allowed p-1"
               href="#0"
-              disabled
               onClick={props.paginateProducts}
             >
               &lt;- Previous

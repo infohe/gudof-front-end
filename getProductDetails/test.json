@@ -1,0 +1,241 @@
+{
+  "post_filter": {
+    "bool": {
+      "filter": [
+        {
+          "nested": {
+            "path": "string_facets",
+            "query": {
+              "bool": {
+                "filter": [
+                  {
+                    "term": {
+                      "string_facets.facet_name": "make"
+                    }
+                  },
+                  {
+                    "term": {
+                      "string_facets.facet_value": "Omron"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "nested": {
+            "path": "string_facets",
+            "query": {
+              "bool": {
+                "filter": [
+                  {
+                    "term": {
+                      "string_facets.facet_name": "roHs"
+                    }
+                  },
+                  {
+                    "term": {
+                      "string_facets.facet_value": "Compliant"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "aggs": {
+    "aggs_all_filters": {
+      "filter": {
+        "bool": {
+          "filter": [
+            {
+              "nested": {
+                "path": "string_facets",
+                "query": {
+                  "bool": {
+                    "filter": [
+                      {
+                        "term": {
+                          "string_facets.facet_name": "make"
+                        }
+                      },
+                      {
+                        "term": {
+                          "string_facets.facet_value": "Omron"
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            },
+            {
+              "nested": {
+                "path": "string_facets",
+                "query": {
+                  "bool": {
+                    "filter": [
+                      {
+                        "term": {
+                          "string_facets.facet_name": "roHs"
+                        }
+                      },
+                      {
+                        "term": {
+                          "string_facets.facet_value": "Compliant"
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "aggs": {
+        "facets": {
+          "nested": {
+            "path": "string_facets"
+          },
+          "aggs": {
+            "names": {
+              "terms": {
+                "field": "string_facets.facet_name"
+              },
+              "aggs": {
+                "values": {
+                  "terms": {
+                    "field": "string_facets.facet_value"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "aggs_make": {
+      "filter": {
+        "bool": {
+          "filter": [
+            {
+              "nested": {
+                "path": "string_facets",
+                "query": {
+                  "bool": {
+                    "filter": [
+                      {
+                        "term": {
+                          "string_facets.facet_name": "roHs"
+                        }
+                      },
+                      {
+                        "term": {
+                          "string_facets.facet_value": "Compliant"
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "aggs": {
+        "facets": {
+          "nested": {
+            "path": "string_facets"
+          },
+          "aggs": {
+            "aggs_special": {
+              "filter": {
+                "match": {
+                  "string_facets.facet_name": "make"
+                }
+              },
+              "aggs": {
+                "names": {
+                  "terms": {
+                    "field": "string_facets.facet_name"
+                  },
+                  "aggs": {
+                    "values": {
+                      "terms": {
+                        "field": "string_facets.facet_value"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "aggs_roHs": {
+      "filter": {
+        "bool": {
+          "filter": [
+            {
+              "nested": {
+                "path": "string_facets",
+                "query": {
+                  "bool": {
+                    "filter": [
+                      {
+                        "term": {
+                          "string_facets.facet_name": "make"
+                        }
+                      },
+                      {
+                        "term": {
+                          "string_facets.facet_value": "Omron"
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "aggs": {
+        "facets": {
+          "nested": {
+            "path": "string_facets"
+          },
+          "aggs": {
+            "aggs_special": {
+              "filter": {
+                "match": {
+                  "string_facets.facet_name": "roHs"
+                }
+              },
+              "aggs": {
+                "names": {
+                  "terms": {
+                    "field": "string_facets.facet_name"
+                  },
+                  "aggs": {
+                    "values": {
+                      "terms": {
+                        "field": "string_facets.facet_value"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

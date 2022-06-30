@@ -1,0 +1,14 @@
+{
+  "name": "getproductdetails",
+  "version": "1.0.0",
+  "description": "",
+  "main": "products.js",
+  "scripts": {
+    "start": "nodemon aggregate.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "nodemon": "^2.0.16"
+  }
+}

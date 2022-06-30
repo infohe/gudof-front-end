@@ -1,3 +1,5 @@
+// all imports
+
 import React from "react";
 import Link from "next/link";
 // import Circle from "../../../Component/utils/Circle";
@@ -5,12 +7,14 @@ import TeamTabsCard from "../Component/Mosaic/TeamTabsCard";
 import Wrapper from "../Component/utils/Wrapper";
 import Pagination from "../Component/utils/pagination";
 
+
+//page function
+
 const CategoryPage = (props) => {
   const categories = props.categories;
-  const count = categories.length;
-
+  const count: number = categories.length;
   const output = props.output;
-  const pageType = props.pageType;
+  const pageType: string = props.pageType;
 
   // const ParentData = props.ParentData;
 
@@ -28,16 +32,24 @@ const CategoryPage = (props) => {
             {props.categoryTitle}
           </span>
         </h2>
+
+        {/* list subCategories */}
+
+
         <div className="grid grid-cols-2 grid-rows-4 gap-1 grid-flow-row mt-10">
-          {categories.map((Category, i) => (
+          {categories.map((category, i) => (
             <TeamTabsCard
               key={i}
-              title={Category.title}
-              url={Category.url}
+              title={category.title}
+              url={category.url}
               categories={categories}
             ></TeamTabsCard>
           ))}
         </div>
+
+        {/* pagination if more products */}
+
+
         <div>
           {output.length > 0 ? (
             <Wrapper items={output} pageType={pageType}></Wrapper>

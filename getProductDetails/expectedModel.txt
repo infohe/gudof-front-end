@@ -1,0 +1,31 @@
+[
+    { facet_name: 'make', facet_value: 'Crouzet' },
+      { facet_name: 'lifecycleStatus', facet_value: 'Production' },
+      { facet_name: 'manufacturerLifecycleStatus', facet_value: 'ACTIVE' },
+      { facet_name: 'casePackage', facet_value: 'Module'},
+      { facet_name: 'mechanicalLife', facet_value: '10 Mcycles'}
+      { facet_name: 'mount', facet_value: 'Chassis Mount, DIN Rail, Panel'}
+      { facet_name: 'displayType', facet_value: 'LCD'}
+      { facet_name: 'memorySize', facet_value: '46 B'}
+      { facet_name: 'responseTime', facet_value: '5 ms'}
+      { facet_name: 'termination', facet_value: 'Screw'}
+      { facet_name: 'approvals', facet_value: 'CE'}
+      { facet_name: 'ratings', facet_value: 'IP40'}
+      { facet_name: 'roHs', facet_value: 'Compliant'}
+    ];
+    const number_facets = [
+      { facet_name: 'model', facet_value: 88974034 },
+      { facet_name: 'maxOperatingTemperature', facet_value: 70 },
+      { facet_name: 'minOperatingTemperature', facet_value: -20 },
+      { facet_name: 'numberOfInputs', facet_value: 12 },
+      { facet_name: 'numberOfOutputs', facet_value: 8 },
+      { facet_name: 'operatingSupplyVoltage', facet_value: 24 },
+      { facet_name: 'outputCurrent', facet_value: 12 },
+      { facet_name: 'depth', facet_value:67.5 },
+      { facet_name: 'length', facet_value: 100 },
+      { facet_name: 'width', facet_value: 71.2 },
+      { facet_name: 'width', facet_value: 71.2 },
+    ]
+
+
+      if(key!=="unit" |key!=="value"){}
