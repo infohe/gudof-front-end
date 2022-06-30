@@ -14,6 +14,7 @@ function PaginationClassic() {
               className="btn bg-white border-gray-200 text-gray-300 cursor-not-allowed p-1"
               href="#0"
               disabled
+              onClick={props.paginateProducts}
             >
               &lt;- Previous
             </a>
@@ -23,7 +24,7 @@ function PaginationClassic() {
               className="btn bg-white border-gray-200 hover:border-gray-300 text-indigo-500 p-1"
               href="#0"
             >
-              Next -&gt;
+              Next - &gt;
             </a>
           </li>
         </ul>

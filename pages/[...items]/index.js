@@ -1,14 +1,15 @@
 import * as React from "react";
-import Link from "next/link";
-// import Circle from "../../../Component/utils/Circle";
-import TeamTabsCard from "../../Component/Mosaic/TeamTabsCard";
-
 import Title from "../../Component/utils/Title";
+import BbPromise from "bluebird";
+import { uniqBy } from "lodash";
 
-/////////////////////////////////
-//test data
-//////////////////////////////
+import CategoryPage from "../CategoryPage";
+
+import ProductPage from "../ProductPage";
+
+//*** Data fetching *****/
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 
 const url = "https://gudof-backoffice-api.herokuapp.com/graphql";
 
@@ -16,22 +17,120 @@ const client = new ApolloClient({
   uri: url,
   cache: new InMemoryCache(),
 });
-export async function getStaticProps(context) {
-  console.log(context.params.items.length);
-  let combo = context.params.items;
-  let EndPoint = "";
-  if (combo.length == 1) {
-    EndPoint = context.params.items[0];
-  } else {
-    EndPoint = context.params.items.join("/");
-  }
 
-  let SubCategories = {};
-  if (EndPoint != "favicon.ico") {
-    console.log(EndPoint);
+// get static props
+export async function getStaticProps(context) {
+  const allParams = context.params.items;
+
+  // global variables
+  let endPoint = "";
+  let output = {};
+  let allDetails = {};
+
+  if (allParams.length === 1) {
+    endPoint = context.params.items[0];
+  } else {
+    endPoint = context.params.items.join("/");
+  }
+  endPoint = `/${endPoint}`;
+
+  const query = gql`
+    query Page {
+      pages(filter: { url: "${endPoint}" }) {
+        edges {
+          node {
+            _id
+            title
+            type
+            desc
+            url
+            parentUrl
+          }
+        }
+      }
+    }
+  `;
+  const page = (await client.query({ query: query })).data.pages.edges[0].node;
+  const slugType = page.type;
+
+  if (slugType == "Product") {
+    const productParentUrl = page.parentUrl;
+    const productQuery = gql`
+      query product {
+        product (filter: { url: "${endPoint}" }) {
+          _id
+
+          productDetails
+          url
+          title
+          desc
+        }
+      }
+    `;
+
+    const relatedProductsQuery = gql`
+      query products {
+        products (filter: { parentUrl: "${productParentUrl}" }) {
+            pageInfo{
+                hasNextPage
+                hasPreviousPage
+                endCursor
+              }
+          edges {
+            node {
+              _id
+              desc
+              title
+              url
+            }
+          }
+        }
+      }
+    `;
+    const [productData, productsData] = await BbPromise.map(
+      [productQuery, relatedProductsQuery],
+      async (query) => {
+        return client.query({ query });
+      }
+    );
+    console.log(productsData);
+    console.log(relatedProductsQuery);
+    console.log(productData);
+
+    const products = productsData.data.products.edges.map(({ node }) => {
+      return {
+        id: node._id,
+        title: node.title,
+        desc: node.desc,
+        productUrl: node.url,
+      };
+    });
+    console.log(products);
+
+    const { product } = productData.data;
+    console.log(product);
+    const productDetails = {
+      ...product.productDetails[0],
+      title: product.title,
+      desc: product.desc,
+      productUrl: product.url,
+    };
+    allDetails = {
+      //   relatedProductsQuery,
+      products: uniqBy(products, "title"),
+      productDetails: renderObj(productDetails),
+      category: "",
+      subCategories: [],
+      slugType,
+      parentUrl: productParentUrl,
+    };
+  } else if (slugType === "Category") {
+    const categoryName = page.title;
+    const categoryDesc = page.desc;
+    const pageUrl = page.url;
     const query = gql`
-      query Page {
-        pages(filter: { parentUrl: "/${EndPoint}" }) {
+      query subCategoriesAndProducts {
+        pages(filter: { parentUrl: "${endPoint}" },first:5) {
           edges {
             node {
               _id
@@ -39,96 +138,134 @@ export async function getStaticProps(context) {
               type
               desc
               url
-              parentUrl
             }
           }
         }
       }
     `;
-    const { data } = await client.query({ query });
+    // const { loading, data, fetchMore } = useQuery(query, {
+    //     variables: {
+    //     },
+    //   });
 
-    SubCategories = data.pages.edges.map(({ node }) => {
+    const { data } = await client.query({ query });
+    const items = data.pages.edges;
+    const subCategoryNodes = items.filter(
+      ({ node }) => node.type === "Category"
+    );
+    console.log(subCategoryNodes);
+    const productNodes = items.filter(({ node }) => node.type === "Product");
+    const subCategories = subCategoryNodes.map(({ node }) => {
       return {
         id: node._id,
         title: node.title,
         desc: node.desc,
         url: node.url,
-        type: node.type,
-        parentUrl: node.parentUrl,
       };
     });
+
+    const products = productNodes.map(({ node }) => {
+      return {
+        id: node._id,
+        title: node.title,
+        desc: node.desc,
+        url: node.url,
+      };
+    });
+
+    output = {
+      category: categoryName,
+      pageUrl,
+      categoryDesc,
+      subCategories,
+      products: uniqBy(products, "title"),
+      productDetails: [],
+      slugType,
+      parentUrl: "",
+    };
   }
-  //////////////
-  const query = gql`
-    query Page {
-      category (filter: { url: "/${EndPoint}" }) {
-          
-        _id
-        desc
-        title
-        url
-      
 
-  }
-
-    }
-  `;
-  const { data } = await client.query({ query });
-
-  // const EndPoint = context.params.items[0];
   return {
     props: {
-      SubCategories: SubCategories,
-      data: data,
-    },
+      slugType,
+      output,
 
-    revalidate: 10, // In seconds
+      allDetails,
+    },
   };
 }
 
-////////////////////////
+// get static paths
+
 export async function getStaticPaths() {
   return {
     paths: [
-      // {params:{ }}
+      // { params: { ... } }
     ],
-    fallback: "blocking", // See the "fallback" section below
+    fallback: "blocking", // false or 'blocking'
   };
 }
-///////////////
 
-const Index = (props) => {
-  const Categories = props.SubCategories;
-  const data = props.data;
-  console.log(data.category);
+const renderObj = (productDetails) => {
+  for (const key in productDetails) {
+    const val = productDetails[key];
+    if (typeof val === "object" && val) {
+      productDetails[key] = `${val.value} ${val.unit}`;
+    }
+    if (!val) {
+      delete productDetails[key];
+    }
+  }
+  return productDetails;
+};
+// const paginateProduct=()=>{
+//     const { loading, data, fetchMore } = useQuery(, {
+//         variables: {
+//         },
+//       });
+
+// }
+
+const index = (props) => {
+  const allDetails = props.allDetails;
+  const output = props.output;
+  const categories = props.output.subCategories;
+  const pageUrl = props.output.pageUrl;
+  const categoryDesc = props.output.categoryDesc;
+  const categoryTitle = props.output.category;
+  const pageType = props.output.slugType;
+
+  // const paginateProduct=()=>{
+  //   const { loading, data, fetchMore } = useQuery(, {
+  //     variables: {
+  //       offset: 0,
+  //       limit: 10
+  //     },
+  //   });
+
+  // }
 
   return (
     <React.Fragment>
       <Title></Title>
-      <div className="flex flex-col  p-5 h-4/5	">
-        <p className="text-blue-900 text-lg mb-1">
-          <Link href="/">Categories</Link>/{data.category.title} (1222)
-        </p>
-        <p className="mb-1 text-sm">{data.category.desc}</p>
-        <h2 className="text-xl		 text-blue-900  font-semibold mt-1">
-          Search In &nbsp;
-          <span className="text-sky-400 font-semibold">
-            {data.category.url}
-          </span>
-        </h2>
-        <div className="grid grid-cols-2 grid-rows-4 gap-1 grid-flow-row mt-10">
-          {Categories.map((Category, i) => (
-            <TeamTabsCard
-              key={i}
-              title={Category.title}
-              url={Category.url}
-              Categories={Categories}
-            ></TeamTabsCard>
-          ))}
-        </div>
-      </div>
+      {pageType === "Category" ? (
+        <CategoryPage
+          output={output.products}
+          categories={categories}
+          pageType={pageType}
+          pageUrl={pageUrl}
+          categoryDesc={categoryDesc}
+          categoryTitle={categoryTitle}
+        ></CategoryPage>
+      ) : (
+        <ProductPage
+          pageType={pageType}
+          allDetails={allDetails}
+          output={output.products}
+        ></ProductPage>
+      )}
     </React.Fragment>
   );
 };
 
-export default Index;
+export default index;

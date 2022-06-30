@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import DetailTable from "./DetailTable";
 
 const Fold = (props) => {
-  console.log(props.productDetails);
+  const productDetails = props.productDetails;
   const [IsIconOpen, SetIsIconOpen] = useState(false);
   const OpenIcon = () => {
     SetIsIconOpen(true);
@@ -53,7 +53,7 @@ const Fold = (props) => {
         )}
       </div>
       {IsIconOpen && (
-        <DetailTable productDetails={props.productDetails}></DetailTable>
+        <DetailTable productDetails={productDetails}></DetailTable>
       )}
     </div>
   );
