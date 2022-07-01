@@ -141,9 +141,6 @@ const result = getArguments(
 
 console.log(JSON.stringify(result, null, 2));
 
-
-
-
 //TASK THREE
 
 const data = {
