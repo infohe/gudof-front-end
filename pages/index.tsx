@@ -12,76 +12,52 @@ import { NextPage } from "next";
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 import { Categories, Category } from "../types";
 
+// query
 
-// query 
-
-const url = "http://localhost:3333/graphql";
+const url = "https://gudof-backoffice-api.herokuapp.com/graphql";
 const client = new ApolloClient({
   uri: url,
   cache: new InMemoryCache(),
 });
 
-
 export const getStaticProps = async () => {
   const query = gql`
-    query pageConnection {
-      pageConnection(
-        sort: [url__keyword__asc]
-        query: { term: { parentUrl__keyword: { value: "/" } } }
-      ) {
-        pageInfo {
-          endCursor
-          startCursor
-        }
-        count
+    query Page {
+      pages(filter: { parentUrl: "/" }) {
         edges {
           node {
-            _source {
-              url
-              title
-              parentUrl
-              desc
-              description
-              string_facet {
-                facet_name
-                facet_value
-              }
-            }
+            _id
+            title
+            type
+            desc
+            url
           }
         }
       }
     }
   `;
-
   const { data } = await client.query({ query });
-  const count = data.pageConnection.count;
-  const pageInfo = data.pageConnection.pageInfo;
-  const categories: Categories = data.pageConnection.edges.map((item) => {
+  const categories: Categories = data.pages.edges.map(({ node }) => {
     return {
-      title: item.node._source.title,
-      desc: item.node._source.desc,
-      url: item.node._source.url,
+      id: node._id,
+      title: node.title,
+      desc: node.desc,
+      url: node.url,
     };
   });
-
   return {
     props: {
-      data: data,
-      pageInfo,
-      count,
-      categories,
+      categories: categories,
     },
   };
 };
 
-
 // main page component
 
 const Home: NextPage = (props: Categories) => {
+  //  states and methods
 
-//  states and methods
-
-  const items: Category[] = props.categories;
+  const items: Category[] = props?.categories || [];
   const [isOpen, setIsOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
 
@@ -101,10 +77,8 @@ const Home: NextPage = (props: Categories) => {
 
   // function return
 
-
   return (
     <Fragment>
-     
       <Head>
         <title>Gudof</title>
         <meta
@@ -114,34 +88,31 @@ const Home: NextPage = (props: Categories) => {
       </Head>
 
       <div className="lg:m-20 ">
-        <div
-          className="flex  flex-col items-center justify-center  w-full "
-        >
+        <div className="flex  flex-col items-center justify-center  w-full ">
           <h1 className="text-3xl text-blue-900 font-bold	 my-8	 lg:text-6xl">
             Gud<span className="text-sky-400 font-bold">of</span>
           </h1>
 
           {/* Search form */}
           <Search setRecent={setRecent}></Search>
-         
+
           {/* recentSearch form */}
           {isSearchOpen && (
             <RecentSearch cancelRecent={cancelRecent}></RecentSearch>
           )}
 
-           {/* backdrop */}
+          {/* backdrop */}
           {isSearchOpen && <Backdrop cancelPopUp={cancelPopUp}></Backdrop>}
-        
+
           {/* Advanced search */}
           <Slice
             text="Select the product, model, manufactory and more"
             setPopUp={setPopUp}
           ></Slice>
         </div>
-          
-          {/* categories */}
-        <CategoryItem items={items}></CategoryItem>
 
+        {/* categories */}
+        <CategoryItem items={items}></CategoryItem>
 
         {isOpen && <Popup cancelPopUp={cancelPopUp}></Popup>}
         {isOpen && <Backdrop cancelPopUp={cancelPopUp}></Backdrop>}

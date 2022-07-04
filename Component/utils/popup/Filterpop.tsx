@@ -1,19 +1,41 @@
+import { ListItem } from "@mui/material";
 import React, { Fragment } from "react";
-import Filters from "../../Mosaic/Filters";
 
-const FilterPop = () => {
-  const filters = [" View All ", "model", "manufacture", "Add new item"];
+// type FilterPop = {
+//   children: React.ReactNode; // 👈️ type children
+// };
+
+const FilterPop = (props: any) => {
+  const innerFilterValues = props.values;
+  const currentValue = props.currentValue;
+
+  let parentDocCount = 0;
+  let buckets = [];
+  let bucketCout = 0;
+  innerFilterValues.map((item) => {
+    if (item.key === currentValue) {
+      parentDocCount = item.doc_count;
+      buckets = item.values.buckets;
+    }
+  });
+  console.log(parentDocCount);
+  console.log(buckets);
 
   return (
     <Fragment>
-      <div className="flex justify-center	">
-        <svg className="w-6 h-6 fill-blue-500" viewBox="0 0 16 16">
-          <path d="M9 15H7a1 1 0 010-2h2a1 1 0 010 2zM11 11H5a1 1 0 010-2h6a1 1 0 010 2zM13 7H3a1 1 0 010-2h10a1 1 0 010 2zM15 3H1a1 1 0 010-2h14a1 1 0 010 2z" />
-        </svg>
+      <div className="flex justify-center	"></div>
+      <div className="text-black flex justify-center border-b-2	 border-zinc-300	p-2">
+        {currentValue.toUpperCase()}
       </div>
-      <div>
-        <Filters filters={filters}></Filters>
-      </div>
+      <ul className="flex flex-wrap items-center	gap-1 	">
+        {buckets.map((product, i) => (
+          <li className="m-1" key={i}>
+            <button className="inline-flex items-center justify-center text-sm font-medium leading-5 rounded-full px-3 py-1 border border-transparent shadow-md bg-white text-zinc-600 duration-150 ease-in-out">
+              {product.key}
+            </button>
+          </li>
+        ))}{" "}
+      </ul>
     </Fragment>
   );
 };

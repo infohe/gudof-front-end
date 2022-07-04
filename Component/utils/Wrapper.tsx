@@ -2,7 +2,7 @@ import React from "react";
 import ShopCards06 from "../Mosaic/ShopCards06";
 
 const Wrapper = (props) => {
-  const items = props.items;
+  const items = props.items || [];
   const pageType = props.pageType;
 
   return (

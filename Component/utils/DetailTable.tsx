@@ -1,11 +1,10 @@
 import React, { Fragment } from "react";
 
 const DetailTable = (props) => {
-  let entries = {};
+  let entries = [];
   if (props.productDetails) {
     entries = Object.entries(props.productDetails);
   }
-  console.log(entries);
   const CheckProperty = (Property) => {
     if (typeof Property === "string") {
       if (Property === "undefined undefined") {

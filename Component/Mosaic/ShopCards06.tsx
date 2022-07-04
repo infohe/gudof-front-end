@@ -1,7 +1,7 @@
 import React, { Fragment, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import img from "../../public/images/applications-image-07.jpg";
+// import img from "../../public/images/applications-image-07.jpg";
 
 function ShopCards06(props) {
   const url = props.url;
@@ -13,14 +13,14 @@ function ShopCards06(props) {
       <Fragment>
         <div className="flex  bg-white shadow-lg rounded-sm border border-gray-200 overflow-hidden">
           {/* Image */}
-          <div className="relative flex items-center	justify-center w-48		">
-            <Image
+          <div className="relative flex items-center	justify-center w-48 	h-24		">
+            {/* <Image
               className="w-full"
               src={img}
               width="400"
               height="300"
               alt="Application 21"
-            />
+            /> */}
             {/* Like button */}
             <button className="absolute top-0 right-0 mt-4 mr-4">
               <div className="text-gray-100 bg-gray-900 bg-opacity-60 rounded-full">

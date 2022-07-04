@@ -17,7 +17,7 @@ const Sliders = (props) => {
 
   return (
     <Swiper
-      // modules={[Pagination]}
+      // modules={[Pagination]} k[]
       slidesPerView={2}
       pagination={{ clickable: true }}
       className="w-screen z-40"

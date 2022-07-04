@@ -7,14 +7,13 @@ import TeamTabsCard from "../Component/Mosaic/TeamTabsCard";
 import Wrapper from "../Component/utils/Wrapper";
 import Pagination from "../Component/utils/pagination";
 
-
 //page function
 
 const CategoryPage = (props) => {
-  const categories = props.categories;
-  const count: number = categories.length;
-  const output = props.output;
-  const pageType: string = props.pageType;
+  const categories = props?.categories || [];
+  const count: number = categories?.length || 0;
+  const output = props?.output;
+  const pageType: string = props?.pageType;
 
   // const ParentData = props.ParentData;
 
@@ -35,7 +34,6 @@ const CategoryPage = (props) => {
 
         {/* list subCategories */}
 
-
         <div className="grid grid-cols-2 grid-rows-4 gap-1 grid-flow-row mt-10">
           {categories.map((category, i) => (
             <TeamTabsCard
@@ -49,9 +47,8 @@ const CategoryPage = (props) => {
 
         {/* pagination if more products */}
 
-
         <div>
-          {output.length > 0 ? (
+          {output?.length > 0 ? (
             <Wrapper items={output} pageType={pageType}></Wrapper>
           ) : (
             ""
