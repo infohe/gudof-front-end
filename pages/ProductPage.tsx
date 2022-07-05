@@ -5,7 +5,7 @@ import Popup from "../Component/utils/popup/Popup";
 import Pagination from "../Component/utils/pagination";
 import { Backdrop } from "../Component/utils/popup/Backdrop";
 import FilterPop from "../Component/utils/popup/FilterPop";
-// import getFilterValues from "../back_end/filteredItems";
+// import getFilterValues from "../back_end/filterItems";
 import { resultDataFrom } from "../back_end/filteredItems";
 import FilterIcon from "../Component/utils/filterIcon";
 import AllFilters from "../Component/utils/AllFilters";
@@ -28,19 +28,21 @@ const ProductPage = (props) => {
   const pageType = props.pageType;
 
   const [isOpen, setIsOpen] = useState(false);
-  const [isAllFiltersOpen, setIsAllFiltersOpen] = useState(false);
-  const setFilterPop = () => {
-    setIsAllFiltersOpen(true);
+  const [isAllFiltersOn, setIsAllFiltersOn] = useState(true);
+
+  const setAllFilter = () => {
+    setIsAllFiltersOn(true);
   };
   const cancelAllFilters = () => {
-    setIsAllFiltersOpen(false);
+    setIsAllFiltersOn(false);
   };
+
   const setPopUp = () => {
     setIsOpen(true);
   };
   const cancelPopUp = () => {
     setIsOpen(false);
-    cancelAllFilters();
+    setIsAllFiltersOn(false);
   };
 
   // values will get from props product type and parent url
@@ -62,7 +64,7 @@ const ProductPage = (props) => {
       <div className="">
         <div className="flex flex-col bg-slate-100	 relative  ">
           <div className="p-px flex	ml-2	 border-b-2 ">
-            <FilterIcon setFilterPop={setFilterPop}></FilterIcon>
+            <FilterIcon setAllFilter={setAllFilter}></FilterIcon>
             <Filters setPopUp={setPopUp} values={topFilterValues}></Filters>
           </div>
           <div className="text-sm text-gray-500 italic mb-4">67.975 Items</div>
@@ -84,13 +86,18 @@ const ProductPage = (props) => {
               <FilterPop
                 values={innerFilterValues}
                 currentValue={currentValue}
+                head={currentValue}
               ></FilterPop>
             </Popup>
           )}
-          {isAllFiltersOpen && (
-            <AllFilters topFilterValues={topFilterValues}></AllFilters>
+          {isAllFiltersOn && (
+            <AllFilters
+              topFilterValues={topFilterValues}
+              innerFilterValues={innerFilterValues}
+              cancelAllFilters={cancelAllFilters}
+            ></AllFilters>
           )}
-          {isAllFiltersOpen && <Backdrop cancelPopUp={cancelPopUp}></Backdrop>}
+          {isAllFiltersOn && <Backdrop cancelPopUp={cancelPopUp}></Backdrop>}
           {isOpen && <Backdrop cancelPopUp={cancelPopUp}></Backdrop>}
         </div>
         <div>

@@ -3,12 +3,12 @@ import DetailTable from "./DetailTable";
 
 const Fold = (props) => {
   const productDetails = props.productDetails;
-  const [IsIconOpen, SetIsIconOpen] = useState(false);
-  const OpenIcon = () => {
-    SetIsIconOpen(true);
+  const [isIconOpen, setIsIconOpen] = useState(false);
+  const openIcon = () => {
+    setIsIconOpen(true);
   };
-  const CloseIcon = () => {
-    SetIsIconOpen(false);
+  const closeIcon = () => {
+    setIsIconOpen(false);
   };
 
   return (
@@ -17,7 +17,7 @@ const Fold = (props) => {
         <div>
           <h3 className="font-medium mb-3">More Details</h3>
         </div>
-        {!IsIconOpen && (
+        {!isIconOpen && (
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-6 w-6"
@@ -25,7 +25,7 @@ const Fold = (props) => {
             viewBox="0 0 24 24"
             stroke="currentColor"
             strokeWidth={1}
-            onClick={OpenIcon}
+            onClick={openIcon}
           >
             <path
               strokeLinecap="round"
@@ -34,7 +34,7 @@ const Fold = (props) => {
             />
           </svg>
         )}
-        {IsIconOpen && (
+        {isIconOpen && (
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-6 w-6"
@@ -42,7 +42,7 @@ const Fold = (props) => {
             viewBox="0 0 24 24"
             stroke="currentColor"
             strokeWidth={1}
-            onClick={CloseIcon}
+            onClick={closeIcon}
           >
             <path
               strokeLinecap="round"
@@ -52,7 +52,7 @@ const Fold = (props) => {
           </svg>
         )}
       </div>
-      {IsIconOpen && (
+      {isIconOpen && (
         <DetailTable productDetails={productDetails}></DetailTable>
       )}
     </div>

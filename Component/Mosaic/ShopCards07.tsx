@@ -4,6 +4,7 @@ import Link from "next/link";
 import Sliders from "../utils/Sliders";
 import Fold from "../utils/Fold";
 import { Backdrop } from "../utils/popup/Backdrop";
+import FirstFolder from "../utils/FirstFolder";
 
 function ShopCards07(props) {
   const url = props.productUrl;
@@ -11,20 +12,20 @@ function ShopCards07(props) {
   const productDetails = props?.allDetails?.productDetails;
 
   // const pageType = props.pageType;
-  const [IsDetailOpen, SetIsDetailOpen] = useState(false);
+  const [isDetailOpen, setIsDetailOpen] = useState(false);
 
-  const DetailOpen = () => {
-    SetIsDetailOpen(true);
+  const detailOpen = () => {
+    setIsDetailOpen(true);
   };
-  const CancelPopUp = () => {
-    SetIsDetailOpen(false);
+  const cancelPopUp = () => {
+    setIsDetailOpen(false);
   };
   return (
     <React.Fragment>
       {/* Card 1 */}
       <Fragment>
         <div
-          onClick={DetailOpen}
+          onClick={detailOpen}
           className="flex  bg-white shadow-lg rounded-sm border border-gray-200 overflow-hidden"
         >
           {/* Image */}
@@ -140,30 +141,21 @@ function ShopCards07(props) {
           </div>
         </div>
         <div className="relative z-40">
-          {IsDetailOpen && (
-            <div className="flex  justify-between bg-white text-blue-900 p-1 ">
-              <h2> Details</h2>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={1}
-                onClick={CancelPopUp}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M5 15l7-7 7 7"
-                />
-              </svg>
-            </div>
+          {isDetailOpen && (
+            <FirstFolder
+              Details={"Details"}
+              cancelPopUp={cancelPopUp}
+            ></FirstFolder>
           )}
-          {IsDetailOpen && <Sliders></Sliders>}
-          {IsDetailOpen && <Fold productDetails={productDetails}></Fold>}
+          {isDetailOpen && <Sliders></Sliders>}
+          {isDetailOpen && (
+            <Fold
+              productDetails={productDetails}
+              Details={"More Details"}
+            ></Fold>
+          )}
         </div>
-        {IsDetailOpen && <Backdrop CancelPopUp={CancelPopUp}></Backdrop>}
+        {isDetailOpen && <Backdrop cancelPopUp={cancelPopUp}></Backdrop>}
       </Fragment>
       {/* Card 1 */}
     </React.Fragment>
