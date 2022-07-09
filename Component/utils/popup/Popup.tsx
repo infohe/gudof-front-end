@@ -8,7 +8,7 @@ const Popup = (props) => {
       <div className="flex justify-end	">
         <ClearRoundedIcon
           color="primary"
-          onClick={props.CancelPopUp}
+          onClick={props.cancelPopUp}
         ></ClearRoundedIcon>
       </div>
       {props.children}

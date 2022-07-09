@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper";
 
@@ -7,8 +7,11 @@ import "swiper/css/navigation";
 
 const Filters = (props) => {
   console.log(props.values);
+  const [active, setActive] = useState("bg-white");
+
   const values = props.values;
   const parentFunction = (current) => {
+    setActive("bg-indigo-500");
     props.setPopUp();
     if (typeof window !== "undefined") {
       localStorage.setItem("currentValue", current);
@@ -40,7 +43,7 @@ const Filters = (props) => {
                   parentFunction(filter);
                 }}
               >
-                <button className="inline-flex items-center justify-center text-sm font-medium leading-5 rounded-full px-3 py-1 border border-transparent shadow-md bg-white  duration-150 ease-in-out w-32		">
+                <button className="inline-flex items-center justify-center text-sm font-medium leading-5 rounded-full px-3 py-1 border border-transparent shadow-md bg-white hover:bg-indigo-600 hover:text-white  duration-150 ease-in-out w-32		">
                   {filter}
                 </button>
               </li>

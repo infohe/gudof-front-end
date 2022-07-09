@@ -28,7 +28,7 @@ const ProductPage = (props) => {
   const pageType = props.pageType;
 
   const [isOpen, setIsOpen] = useState(false);
-  const [isAllFiltersOn, setIsAllFiltersOn] = useState(true);
+  const [isAllFiltersOn, setIsAllFiltersOn] = useState(false);
 
   const setAllFilter = () => {
     setIsAllFiltersOn(true);

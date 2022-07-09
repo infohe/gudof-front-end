@@ -50,7 +50,7 @@ const LinkList = (props) => {
           <FilterPop
             values={resultDataFrom}
             currentValue={props.item1}
-            head={""}
+            head={"Add to Filter"}
           ></FilterPop>
         </FirstFolder>
       )}

@@ -1,6 +1,7 @@
 {
   "name": "gudof",
   "version": "0.1.0",
+  "type": "module",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -17,7 +18,10 @@
     "@mui/material": "^5.7.0",
     "@prisma/client": "^3.14.0",
     "bluebird": "^3.7.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.1",
     "graphql": "^16.5.0",
+    "http-proxy-middleware": "^2.0.6",
     "lodash": "^4.17.21",
     "next": "12.1.6",
     "react": "18.1.0",
