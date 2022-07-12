@@ -13,8 +13,7 @@ import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 import { Categories, Category } from "../types";
 
 // query
-
-const url = "https://gudof-backoffice-api.herokuapp.com/graphql";
+const url = "https://gudof-backoffice-api-new.herokuapp.com/graphql";
 const client = new ApolloClient({
   uri: url,
   cache: new InMemoryCache(),
@@ -22,32 +21,54 @@ const client = new ApolloClient({
 
 export const getStaticProps = async () => {
   const query = gql`
-    query Page {
-      pages(filter: { parentUrl: "/" }) {
+    query pageConnection {
+      pageConnection(
+        sort: [url__asc]
+        first: 100
+        query: { term: { parentUrl: { value: "/" } } }
+      ) {
+        pageInfo {
+          endCursor
+          startCursor
+        }
+        count
         edges {
           node {
-            _id
-            title
-            type
-            desc
-            url
+            _source {
+              url
+              title
+              type
+              description
+              parentUrl
+            }
           }
         }
       }
     }
   `;
+
   const { data } = await client.query({ query });
-  const categories: Categories = data.pages.edges.map(({ node }) => {
+  const count = data.pageConnection.count;
+  const pageInfo = data.pageConnection.pageInfo;
+  // const categories: Categories = data.pageConnection.edges.map((item) => {
+  //   return {
+  //     title: item.node._source.title,
+  //     desc: item.node._source.desc,
+  //     url: item.node._source.url,
+  //   };
+  // });
+  const categories = data.pageConnection.edges.map(({ node }) => {
     return {
-      id: node._id,
-      title: node.title,
-      desc: node.desc,
-      url: node.url,
+      title: node._source.title,
+      // desc: node._source.desc,
+      productUrl: node._source.url,
     };
   });
   return {
     props: {
-      categories: categories,
+      pageInfo,
+      count,
+      categories,
     },
   };
 };
@@ -57,7 +78,7 @@ export const getStaticProps = async () => {
 const Home: NextPage = (props: Categories) => {
   //  states and methods
 
-  const items: Category[] = props?.categories || [];
+  const items: Category[] = props.categories;
   const [isOpen, setIsOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
 

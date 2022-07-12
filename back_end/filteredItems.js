@@ -1,61 +1,61 @@
-const { Client } = require("@elastic/elasticsearch");
+// const { Client } = require("@elastic/elasticsearch");
 
-const client = new Client({
-  node: "https://1c47j29ptl:fsttu4gebv@infohe-9213104094.eu-west-1.bonsaisearch.net:443",
-  auth: {
-    username: "1c47j29ptl",
-    password: "fsttu4gebv",
-  },
-});
+// const client = new Client({
+//   node: "https://1c47j29ptl:fsttu4gebv@infohe-9213104094.eu-west-1.bonsaisearch.net:443",
+//   auth: {
+//     username: "1c47j29ptl",
+//     password: "fsttu4gebv",
+//   },
+// });
 
-const filteredItems = async (type, parentUrl) => {
-  const result = await client.search({
-    body: {
-      query: {
-        bool: {
-          filter: [
-            {
-              term: {
-                type,
-              },
-            },
-            {
-              term: {
-                parentUrl,
-              },
-            },
-          ],
-        },
-      },
-      aggs: {
-        facets: {
-          nested: {
-            path: "string_facets",
-          },
-          aggs: {
-            names: {
-              terms: {
-                field: "string_facets.facet_name",
-              },
-              aggs: {
-                values: {
-                  terms: {
-                    field: "string_facets.facet_value",
-                  },
-                },
-              },
-            },
-          },
-        },
-      },
-    },
-  });
-  const bucket = result.body.aggregations.facets.names.buckets;
-  console.log(bucket);
-  return bucket;
-};
-export default filteredItems;
-filteredItems("Product", "/industrial-control/plc");
+// const filteredItems = async (type, parentUrl) => {
+//   const result = await client.search({
+//     body: {
+//       query: {
+//         bool: {
+//           filter: [
+//             {
+//               term: {
+//                 type,
+//               },
+//             },
+//             {
+//               term: {
+//                 parentUrl,
+//               },
+//             },
+//           ],
+//         },
+//       },
+//       aggs: {
+//         facets: {
+//           nested: {
+//             path: "string_facets",
+//           },
+//           aggs: {
+//             names: {
+//               terms: {
+//                 field: "string_facets.facet_name",
+//               },
+//               aggs: {
+//                 values: {
+//                   terms: {
+//                     field: "string_facets.facet_value",
+//                   },
+//                 },
+//               },
+//             },
+//           },
+//         },
+//       },
+//     },
+//   });
+//   const bucket = result.body.aggregations.facets.names.buckets;
+//   console.log(bucket);
+//   return bucket;
+// };
+// export default filteredItems;
+// filteredItems("Product", "/industrial-control/plc");
 const dataModel = {
   took: 4,
   timed_out: false,
@@ -967,4 +967,3 @@ const dataModel = {
   },
 };
 export const resultDataFrom = dataModel.aggregations.facets.names.buckets;
-console.log(resultDataFrom);

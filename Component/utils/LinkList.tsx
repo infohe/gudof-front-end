@@ -2,6 +2,8 @@ import React, { Fragment } from "react";
 import { useState } from "react";
 import FirstFolder from "./FirstFolder";
 import { resultDataFrom } from "../../back_end/filteredItems";
+// import { filteredItems } from "../../pages/api/search";
+
 import FilterPop from "./popup/FilterPop";
 import { Backdrop } from "../utils/popup/Backdrop";
 
@@ -17,6 +19,8 @@ const LinkList = (props) => {
   //   });
 
   // const pageType = props.pageType;
+  // const filteredValues = filteredItems("Product", "/industrial-control/plc");
+  // console.log(filteredValues);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   const filterOpen = () => {

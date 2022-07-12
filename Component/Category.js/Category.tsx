@@ -17,7 +17,7 @@ const Category = (props) => {
         // className="flex flex-col mt-10"
       >
         {items.map((item, i) => (
-          <Token key={i} name={item.title} url={item.url}></Token>
+          <Token key={i} name={item.title} url={item.productUrl}></Token>
         ))}
       </div>
     </div>
