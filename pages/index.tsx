@@ -50,14 +50,7 @@ export const getStaticProps = async () => {
   const { data } = await client.query({ query });
   const count = data.pageConnection.count;
   const pageInfo = data.pageConnection.pageInfo;
-  // const categories: Categories = data.pageConnection.edges.map((item) => {
-  //   return {
-  //     title: item.node._source.title,
-  //     desc: item.node._source.desc,
-  //     url: item.node._source.url,
-  //   };
-  // });
-  const categories = data.pageConnection.edges.map(({ node }) => {
+  const categories: Categories = data.pageConnection.edges.map(({ node }) => {
     return {
       title: node._source.title,
       // desc: node._source.desc,
