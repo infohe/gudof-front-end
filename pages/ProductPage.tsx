@@ -4,7 +4,7 @@ import ShopCards07 from "../Component/Mosaic/ShopCards07";
 import Popup from "../Component/utils/popup/Popup";
 import Pagination from "../Component/utils/pagination";
 import { Backdrop } from "../Component/utils/popup/Backdrop";
-import FilterPop from "../Component/utils/popup/FilterPop";
+// import FilterPop from "../Component/utils/popup/FilterPop";
 // import getFilterValues from "../back_end/filterItems";
 import { resultDataFrom } from "../back_end/filteredItems";
 import FilterIcon from "../Component/utils/filterIcon";
@@ -73,11 +73,11 @@ const ProductPage = (props) => {
           <Pagination paginateProducts={props.paginateProduct}></Pagination>
           {isOpen && (
             <Popup cancelPopUp={cancelPopUp}>
-              <FilterPop
+              {/* <FilterPop
                 values={innerFilterValues}
                 currentValue={currentValue}
                 head={currentValue}
-              ></FilterPop>
+              ></FilterPop> */}
             </Popup>
           )}
           {isAllFiltersOn && (
