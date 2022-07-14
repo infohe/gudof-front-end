@@ -59,7 +59,7 @@ const ProductPage = (props) => {
           </div>
           <div className="text-sm text-gray-500 italic mb-4">67.975 Items</div>
           <div>
-            {/* {products.map((product, i) => (
+            {products.map((product, i) => (
               <ShopCards07
                 key={i}
                 productOutput={productOutput}
@@ -67,7 +67,7 @@ const ProductPage = (props) => {
                 productUrl={product?.productUrl}
                 pageType={pageType}
               ></ShopCards07>
-            ))} */}
+            ))}
           </div>
           {/* <PaginationClassic></PaginationClassic> */}
           <Pagination paginateProducts={props.paginateProduct}></Pagination>
