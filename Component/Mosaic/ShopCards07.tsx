@@ -9,7 +9,7 @@ import FirstFolder from "../utils/FirstFolder";
 function ShopCards07(props) {
   const url = props.productUrl;
   const Title = props.title;
-  const productDetails = props?.allDetails?.productDetails;
+  const productDetails = props?.productOutput?.productDetails;
 
   // const pageType = props.pageType;
   const [isDetailOpen, setIsDetailOpen] = useState(false);

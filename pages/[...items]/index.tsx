@@ -3,8 +3,9 @@
 import * as React from "react";
 import Title from "../../Component/utils/Title";
 import BbPromise from "bluebird";
-// import { uniqBy } from "lodash";
+import { uniqBy } from "lodash";
 import CategoryPage from "../CategoryPage";
+import ProductPage from "../ProductPage";
 
 import {
   MainPage,
@@ -60,6 +61,7 @@ query Page {
   const page: MainPage = (await client.query({ query: query }))?.data?.pages
     ?.edges[0]?.node;
   const slugType: string = page?.type;
+  console.log(slugType);
 
   if (slugType === "Category") {
     const categoryName: string = page?.title;
@@ -120,10 +122,11 @@ query Page {
       query product {
         product (filter: { url: "${endPoint}" }) {
           _id
-  
+
           productDetails
           url
           title
+          type
           desc
         }
       }
@@ -142,6 +145,7 @@ query Page {
               _id
               desc
               title
+              type
               url
             }
           }
@@ -159,32 +163,32 @@ query Page {
         id: node?._id,
         title: node?.title,
         desc: node?.desc,
+        type: node?.type,
         productUrl: node?.url,
       };
     });
 
     const { product } = productData?.data;
-    console.log(products, product);
-    // const productDetails = {
-    //   ...product.productDetails[0],
-    //   title: product.title,
-    //   desc: product.desc,
-    //   productUrl: product.url,
-    // };
-    // productOutput = {
-    //   products: uniqBy(products, "title"),
-    //   productDetails,
-    //   category: "",
-    //   subCategories: [],
-    //   slugType,
-    //   parentUrl: productParentUrl,
-    // };
+    const productDetails = {
+      ...product?.productDetails[0],
+      title: product?.title,
+      desc: product?.desc,
+      productUrl: product?.url,
+    };
+    productOutput = {
+      products: uniqBy(products, "title"),
+      productDetails,
+      category: "",
+      subCategories: [],
+      slugType,
+      parentUrl: productParentUrl,
+    };
   }
-
   return {
     props: {
       output,
-      // productOutput,
+      productOutput,
+      slugType,
     },
   };
 }
@@ -196,26 +200,25 @@ export async function getStaticPaths() {
     paths: [
       // { params: { ... } }
     ],
-    fallback: true, // false or 'blocking'
+    fallback: "blocking", // false or 'blocking'
   };
 }
 
 const index = (props) => {
   const output = props?.output;
-  const pageType = props?.output?.slugType;
+  const pageType = props?.slugType;
   const categories = props?.output?.subCategories;
   const pageUrl = props?.output?.pageUrl;
   const categoryDesc = props?.output?.categoryDesc;
   const categoryTitle = props?.output?.category;
-  // const productOutput = props.productOutput;
-  // const allDetails = props.productOutput;
 
-  console.log(output);
-
-  return (
-    <React.Fragment>
-      <Title></Title>
-      {pageType === "Category" ? (
+  //productPage details
+  const productOutput = props?.productOutput;
+  const productsList = props?.output?.products;
+  if (pageType === "Category") {
+    return (
+      <div>
+        <Title></Title>
         <CategoryPage
           output={output?.products}
           categories={categories}
@@ -224,16 +227,23 @@ const index = (props) => {
           categoryDesc={categoryDesc}
           categoryTitle={categoryTitle}
         ></CategoryPage>
-      ) : (
-        <p>will show</p>
-        // <ProductPage
-        //   pageType={pageType}
-        //   allDetails={allDetails}
-        //   output={output?.products || []}
-        // ></ProductPage>
-      )}
-    </React.Fragment>
-  );
+      </div>
+    );
+  } else if (pageType === "Product") {
+    return (
+      <div>
+        <Title></Title>
+        <ProductPage
+          productOutput={productOutput}
+          pageType={pageType}
+        ></ProductPage>
+      </div>
+    );
+  } else {
+    <div>
+      <p>loading</p>
+    </div>;
+  }
 };
 
 export default index;
