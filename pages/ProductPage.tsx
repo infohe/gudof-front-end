@@ -7,6 +7,7 @@ import { Backdrop } from "../Component/utils/popup/Backdrop";
 import { resultDataFrom } from "../back_end/filteredItems";
 import FilterIcon from "../Component/utils/filterIcon";
 import AllFilters from "../Component/utils/AllFilters";
+import FilterPopList from "../Component/utils/FilterPopList";
 
 const ProductPage = (props) => {
   const products = props?.productOutput?.products || [];
@@ -69,7 +70,15 @@ const ProductPage = (props) => {
           </div>
           {/* <PaginationClassic></PaginationClassic> */}
           <Pagination paginateProducts={props.paginateProduct}></Pagination>
-          {isOpen && <Popup cancelPopUp={cancelPopUp}></Popup>}
+          {isOpen && (
+            <Popup cancelPopUp={cancelPopUp}>
+              <FilterPopList
+                values={innerFilterValues}
+                currentValue={currentValue}
+                head={currentValue}
+              ></FilterPopList>
+            </Popup>
+          )}
           {isAllFiltersOn && (
             <AllFilters
               topFilterValues={topFilterValues}
@@ -92,3 +101,11 @@ const ProductPage = (props) => {
   );
 };
 export default ProductPage;
+
+{
+  /* <FilterPop
+                values={innerFilterValues}
+                currentValue={currentValue}
+                head={currentValue}
+              ></FilterPop> */
+}
