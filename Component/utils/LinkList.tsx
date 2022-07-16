@@ -1,7 +1,8 @@
 import React, { Fragment } from "react";
 import { useState } from "react";
 import FirstFolder from "./FirstFolder";
-// import { resultDataFrom } from "../../back_end/filteredItems";
+import { resultDataFrom } from "../../back_end/filteredItems";
+import FilterPopList from "../utils/FilterPopList";
 
 import { Backdrop } from "../utils/popup/Backdrop";
 
@@ -26,7 +27,13 @@ const LinkList = (props) => {
         <div>{props.item2}</div>
       </div>
       {isFilterOpen && (
-        <FirstFolder Details={""} cancelPopUp={cancelPopUp}></FirstFolder>
+        <FirstFolder Details={""} cancelPopUp={cancelPopUp}>
+          <FilterPopList
+            values={resultDataFrom}
+            currentValue={props.item1}
+            head={"Add to Filter"}
+          ></FilterPopList>
+        </FirstFolder>
       )}
       {isFilterOpen && <Backdrop cancelPopUp={cancelPopUp}></Backdrop>}
     </Fragment>

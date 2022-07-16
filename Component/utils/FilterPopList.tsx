@@ -15,6 +15,8 @@ const FilterPopList = (props: any) => {
       buckets = item?.values?.buckets;
     }
   });
+
+  //select clicked filters from ui in a n array
   let selectedFilters = [];
   const itemClicked = (currentValue) => {
     selectedFilters.push(currentValue);
@@ -28,7 +30,7 @@ const FilterPopList = (props: any) => {
       <ul className="flex flex-wrap items-center	gap-1 p-1	">
         {buckets.map((product, i) => (
           <li
-            className="m-1 relative"
+            className="m-1 relative p"
             key={i}
             onClick={() => {
               itemClicked(product.key);

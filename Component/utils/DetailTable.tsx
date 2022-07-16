@@ -1,19 +1,62 @@
 import React, { Fragment } from "react";
-
 const DetailTable = (props) => {
   let entries = [];
   if (props.productDetails) {
+    delete props.productDetails.productUrl;
+
     entries = Object.entries(props.productDetails);
   }
+  /// added
+
+  const checkingPoint = (key, field) => {
+    const string_facets = [];
+    if (typeof key === "string" && typeof field === "string") {
+      string_facets.push({ facet_name: key, facet_value: field });
+    } else {
+      if (field !== null) {
+        const innerObj: Array<any> = Object.entries(field);
+
+        innerObj.map((entry, i) => {
+          if (typeof entry === "string") {
+          } else if (typeof entry === "object") {
+            if (Array.isArray(entry)) {
+              const { label, value } = entry[1];
+              if (value === "string") {
+                string_facets.push({ facet_name: label, facet_value: value });
+                // console.log(string_facets);
+              }
+            }
+          }
+        });
+      }
+    }
+  };
+
+  ///
+
   const CheckProperty = (Property) => {
+    switch (Property) {
+      case "string":
+        //block of code
+        console.log(Property);
+        break;
+
+      case "object":
+        //block of code
+        console.log("its object");
+
+        break;
+
+      default:
+      //block of code
+    }
+
     if (typeof Property === "string") {
       if (Property === "undefined undefined") {
         return (Property = "Null");
       }
       return Property;
     } else {
-      console.log(Property);
-
       return "will come";
     }
   };

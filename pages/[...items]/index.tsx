@@ -215,6 +215,7 @@ const index = (props) => {
   //productPage details
   const productOutput = props?.productOutput;
   const productsList = props?.output?.products;
+  const parentUrl = props?.productOutput?.parentUrl;
   if (pageType === "Category") {
     return (
       <div>
@@ -236,6 +237,7 @@ const index = (props) => {
         <ProductPage
           productOutput={productOutput}
           pageType={pageType}
+          parentUrl={parentUrl}
         ></ProductPage>
       </div>
     );

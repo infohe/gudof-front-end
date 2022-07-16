@@ -7,8 +7,8 @@ import { Backdrop } from "../utils/popup/Backdrop";
 import FirstFolder from "../utils/FirstFolder";
 
 function ShopCards07(props) {
-  const url = props.productUrl;
-  const Title = props.title;
+  const url = props?.productUrl;
+  const Title = props?.Title;
   const productDetails = props?.productOutput?.productDetails;
 
   // const pageType = props.pageType;

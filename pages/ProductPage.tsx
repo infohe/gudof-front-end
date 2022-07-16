@@ -6,24 +6,28 @@ import Pagination from "../Component/utils/pagination";
 import { Backdrop } from "../Component/utils/popup/Backdrop";
 import { resultDataFrom } from "../back_end/filteredItems";
 import FilterIcon from "../Component/utils/filterIcon";
-import AllFilters from "../Component/utils/AllFilters";
+// import AllFilters from "../Component/utils/AllFilters";
+import FlipkartModel from "../Component/utils/FlipkartModel";
 import FilterPopList from "../Component/utils/FilterPopList";
 
 const ProductPage = (props) => {
   const products = props?.productOutput?.products || [];
   const pageType = props?.pageType;
-  console.log(products);
+  const parentUrl = props?.parentUrl;
 
   const productOutput = props?.productOutput;
 
   const [isOpen, setIsOpen] = useState(false);
   const [isAllFiltersOn, setIsAllFiltersOn] = useState(false);
+  const [isFlipModel, setIsFlipModel] = useState(false);
 
   const setAllFilter = () => {
     setIsAllFiltersOn(true);
+    setIsFlipModel(true);
   };
   const cancelAllFilters = () => {
     setIsAllFiltersOn(false);
+    setIsFlipModel(false);
   };
 
   const setPopUp = () => {
@@ -79,12 +83,23 @@ const ProductPage = (props) => {
               ></FilterPopList>
             </Popup>
           )}
-          {isAllFiltersOn && (
+          {/* {isAllFiltersOn && (
             <AllFilters
               topFilterValues={topFilterValues}
               innerFilterValues={innerFilterValues}
               cancelAllFilters={cancelAllFilters}
             ></AllFilters>
+          )}
+          {isAllFiltersOn && <Backdrop cancelPopUp={cancelPopUp}></Backdrop>}
+          {isOpen && <Backdrop cancelPopUp={cancelPopUp}></Backdrop>} */}
+          {isFlipModel && (
+            <FlipkartModel
+              topFilterValues={topFilterValues}
+              innerFilterValues={innerFilterValues}
+              parentUrl={parentUrl}
+              currentValue={currentValue}
+              cancelAllFilters={cancelAllFilters}
+            ></FlipkartModel>
           )}
           {isAllFiltersOn && <Backdrop cancelPopUp={cancelPopUp}></Backdrop>}
           {isOpen && <Backdrop cancelPopUp={cancelPopUp}></Backdrop>}
