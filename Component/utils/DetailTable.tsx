@@ -35,21 +35,6 @@ const DetailTable = (props) => {
   ///
 
   const CheckProperty = (Property) => {
-    switch (Property) {
-      case "string":
-        //block of code
-        console.log(Property);
-        break;
-
-      case "object":
-        //block of code
-        console.log("its object");
-
-        break;
-
-      default:
-      //block of code
-    }
 
     if (typeof Property === "string") {
       if (Property === "undefined undefined") {

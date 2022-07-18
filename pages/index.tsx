@@ -13,7 +13,8 @@ import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 import { Categories, Category } from "../types";
 
 // query
-const url = "https://gudof-backoffice-api-new.herokuapp.com/graphql";
+
+const url = "https://gudof-backoffice-api.herokuapp.com/graphql";
 const client = new ApolloClient({
   uri: url,
   cache: new InMemoryCache(),
@@ -21,47 +22,32 @@ const client = new ApolloClient({
 
 export const getStaticProps = async () => {
   const query = gql`
-    query pageConnection {
-      pageConnection(
-        sort: [url__asc]
-        first: 100
-        query: { term: { parentUrl: { value: "/" } } }
-      ) {
-        pageInfo {
-          endCursor
-          startCursor
-        }
-        count
+    query Page {
+      pages(filter: { parentUrl: "/" }) {
         edges {
           node {
-            _source {
-              url
-              title
-              type
-              description
-              parentUrl
-            }
+            _id
+            title
+            type
+            desc
+            url
           }
         }
       }
     }
   `;
-
   const { data } = await client.query({ query });
-  const count = data.pageConnection.count;
-  const pageInfo = data.pageConnection.pageInfo;
-  const categories: Categories = data.pageConnection.edges.map(({ node }) => {
+  const categories: Categories = data.pages.edges.map(({ node }) => {
     return {
-      title: node._source.title,
-      // desc: node._source.desc,
-      productUrl: node._source.url,
+      id: node._id,
+      title: node.title,
+      desc: node.desc,
+      url: node.url,
     };
   });
   return {
     props: {
-      pageInfo,
-      count,
-      categories,
+      categories: categories,
     },
   };
 };
@@ -71,7 +57,7 @@ export const getStaticProps = async () => {
 const Home: NextPage = (props: Categories) => {
   //  states and methods
 
-  const items: Category[] = props.categories;
+  const items: Category[] = props?.categories || [];
   const [isOpen, setIsOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
 

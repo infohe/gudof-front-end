@@ -120,8 +120,8 @@ const { number_facets, string_facets } = check(products[0].productDetails);
 //   number_facets.push({ facet_name: key, facet_value: field });
 // }}
 
-// results.map((entry, i) => {
-//   checkProperty(entry[0], entry[1]);
-// });
+results.map((entry, i) => {
+  checkProperty(entry[0], entry[1]);
+});
 
 // number_facets.push({ facet_name: "model", facet_value: model });
