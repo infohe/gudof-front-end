@@ -53,28 +53,40 @@ const DetailTable = (props) => {
     let finalResult = result.charAt(0).toUpperCase() + result.slice(1);
     return finalResult;
   };
-  return checkPointResult.map((innerArrays) => {
-    return innerArrays.map((itemArrays, i) => {
-      // con(sole.log(itemArrays.facet_name, itemArrays.facet_value);
-      return (
-        <div className="grid grid-cols-2	auto-cols-fr  text-sm		" key={i}>
-          <div className="shadow-sm rounded-sm border border-gray-200 p-2">
-            {SentenceCase(itemArrays.facet_name)}
-            {/* {SentenceCase(entry[0])} */}
-            {/* {console.log(itemArrays)} */}
-          </div>
-          <div
-            className="shadow-sm rounded-sm border border-gray-200 p-2"
-            key={i}
-          >
-            {itemArrays.facet_value}
+  return (
+    <Fragment>
+      {checkPointResult.map((innerArrays, i) => {
+        return (
+          <Fragment key={i}>
+            {innerArrays.map((itemArrays, j) => {
+              return (
+                <Fragment key={j}>
+                  <div
+                    className="grid grid-cols-2	auto-cols-fr  text-sm		"
+                    key={i}
+                  >
+                    <div className="shadow-sm rounded-sm border border-gray-200 p-2">
+                      {SentenceCase(itemArrays.facet_name)}
+                      {/* {SentenceCase(entry[0])} */}
+                      {/* {console.log(itemArrays)} */}
+                    </div>
+                    <div
+                      className="shadow-sm rounded-sm border border-gray-200 p-2"
+                      key={i}
+                    >
+                      {itemArrays.facet_value}
 
-            {/* {CheckProperty(entry[1])} */}
-          </div>
-        </div>
-      );
-    });
-  });
+                      {/* {CheckProperty(entry[1])} */}
+                    </div>
+                  </div>
+                </Fragment>
+              );
+            })}
+          </Fragment>
+        );
+      })}
+    </Fragment>
+  );
 };
 
 export default DetailTable;
