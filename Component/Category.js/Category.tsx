@@ -6,7 +6,7 @@ import Token from "../utils/Token";
 //function component
 
 const Category = (props) => {
-  const items = props.items || [];
+  const items = props?.items || [];
   return (
     <div className="flex flex-col  p-6 h-4/5 lg:mt-10">
       <h2 className="text-xl lg:text-4xl			 text-blue-900  font-semibold lg:font-bold	">
@@ -17,7 +17,7 @@ const Category = (props) => {
         // className="flex flex-col mt-10"
       >
         {items.map((item, i) => (
-          <Token key={i} name={item.title} url={item.productUrl}></Token>
+          <Token key={i} name={item.title} url={item.url}></Token>
         ))}
       </div>
     </div>

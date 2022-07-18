@@ -37,12 +37,13 @@ export const getStaticProps = async () => {
     }
   `;
   const { data } = await client.query({ query });
-  const categories: Categories = data.pages.edges.map(({ node }) => {
+  const categories: Categories = data?.pages?.edges.map(({ node }) => {
     return {
-      id: node._id,
-      title: node.title,
-      desc: node.desc,
-      url: node.url,
+      id: node?._id,
+      title: node?.title,
+      desc: node?.desc,
+      url: node?.url,
+      type: node?.type,
     };
   });
   return {

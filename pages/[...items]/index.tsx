@@ -184,6 +184,7 @@ query Page {
       parentUrl: productParentUrl,
     };
   }
+  console.log(slugType);
   return {
     props: {
       output,
