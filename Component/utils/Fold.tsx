@@ -56,7 +56,48 @@ const Fold = (props) => {
 
   // const { number_facets, string_facets } = check(props?.productDetails);
   // console.log(string_facets, number_facets);
- 
+  let entries = [];
+  if (props.productDetails) {
+    delete props.productDetails.productUrl;
+
+    entries = Object.entries(props.productDetails);
+  }
+  /// added
+
+  const checkingPoint = (key, field) => {
+    const string_facets = [];
+    const important_facets = [];
+    if (typeof key === "string" && typeof field === "string") {
+      string_facets.push({ facet_name: key, facet_value: field });
+      important_facets.push({ facet_name: key, facet_value: field });
+    } else {
+      if (field !== null) {
+        const innerObj: Array<any> = Object.entries(field);
+        innerObj.map((entry, i) => {
+          if (typeof entry === "string") {
+          } else if (typeof entry === "object") {
+            if (Array.isArray(entry)) {
+              const { label, value } = entry[1];
+              if (typeof value === "string") {
+                string_facets.push({ facet_name: label, facet_value: value });
+              }
+            }
+          }
+        });
+      }
+    }
+    return { string_facets, important_facets };
+  };
+  const checkPointResult = entries.map((entry) => {
+    return checkingPoint(entry[0], entry[1]);
+  });
+  ///
+  const stringItems = checkPointResult.map((item) => {
+    return item.string_facets;
+  });
+  const importantItems = checkPointResult.map((item) => {
+    return item.important_facets;
+  });
 
   const productDetails = props?.productDetails;
   const [isIconOpen, setIsIconOpen] = useState(false);
@@ -109,7 +150,10 @@ const Fold = (props) => {
         )}
       </div>
       {isIconOpen && (
-        <DetailTable productDetails={productDetails}></DetailTable>
+        <DetailTable
+          productDetails={productDetails}
+          checkPointResult={stringItems}
+        ></DetailTable>
       )}
     </div>
   );

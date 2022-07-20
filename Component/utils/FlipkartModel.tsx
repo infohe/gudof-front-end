@@ -30,6 +30,13 @@ const FlipkartModel = (props) => {
   const innerFilterValues = props.innerFilterValues;
   const cancelAllFilters = props.cancelAllFilters;
 
+  let defaultValue = [];
+  innerFilterValues.map((item) => {
+    if (item.key === values[0]) {
+      defaultValue = item?.values?.buckets;
+    }
+  });
+
   return (
     <div className="flex flex-col fixed inset-0	bg-white z-50">
       <div className="flex justify-between h-20		align-center bg-blue-700 text-white p-2 	">
@@ -60,7 +67,27 @@ const FlipkartModel = (props) => {
         </div>
 
         {/* {display next value according to user clicks} */}
-        {selectItem && (
+        {selectItem !== true ? (
+          <ul className="flex flex-col">
+            {defaultValue.map((product, i) => (
+              <li className="m-1 relative " key={i}>
+                <div className="flex  p-3">
+                  <div className="form-check">
+                    <input
+                      className="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
+                      type="checkbox"
+                      value=""
+                      id="flexCheckDefault"
+                    />
+                    <label className="form-check-label inline-block  text-sm	text-gray-800">
+                      {product.key}
+                    </label>
+                  </div>
+                </div>
+              </li>
+            ))}
+          </ul>
+        ) : (
           <ul className="flex flex-col">
             {buckets.map((product, i) => (
               <li className="m-1 relative " key={i}>

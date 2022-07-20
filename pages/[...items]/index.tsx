@@ -61,7 +61,6 @@ query Page {
   const page: MainPage = (await client.query({ query: query }))?.data?.pages
     ?.edges[0]?.node;
   const slugType: string = page?.type;
-  console.log(slugType);
 
   if (slugType === "Category") {
     const categoryName: string = page?.title;
@@ -175,16 +174,70 @@ query Page {
       desc: product?.desc,
       productUrl: product?.url,
     };
+
+    const query = gql`
+      query {
+        pageConnection(
+          sort: [url__asc]
+          first: 9999
+          query: {
+            bool: {
+              filter: [
+                { term: { type: { value: "Product" } } }
+                { term: { parentUrl: { value: "/industrial-control/plc" } } }
+              ]
+            }
+          }
+          aggs: {
+            key: "facets"
+            value: {
+              nested: { path: "string_facets" }
+              aggs: {
+                key: "name"
+                value: {
+                  terms: { field: string_facets__facet_name }
+                  aggs: {
+                    key: "values"
+                    value: { terms: { field: string_facets__facet_value } }
+                  }
+                }
+              }
+            }
+          }
+        ) {
+          edges {
+            node {
+              _source {
+                title
+                url
+                type
+                parentUrl
+                description
+              }
+            }
+          }
+          aggregations
+          count
+          pageInfo {
+            startCursor
+            endCursor
+          }
+        }
+      }
+    `;
+    const filterData = (await client.query({ query: query }))?.data
+      ?.pageConnection?.aggregations?.facets?.name?.buckets;
+
     productOutput = {
       products: uniqBy(products, "title"),
       productDetails,
       category: "",
       subCategories: [],
       slugType,
+      filterData,
       parentUrl: productParentUrl,
     };
   }
-  console.log(slugType);
   return {
     props: {
       output,
@@ -217,6 +270,7 @@ const index = (props) => {
   const productOutput = props?.productOutput;
   const productsList = props?.output?.products;
   const parentUrl = props?.productOutput?.parentUrl;
+  const filterData = props?.productOutput?.filterData;
   if (pageType === "Category") {
     return (
       <div>
@@ -239,6 +293,7 @@ const index = (props) => {
           productOutput={productOutput}
           pageType={pageType}
           parentUrl={parentUrl}
+          filterData={filterData}
         ></ProductPage>
       </div>
     );

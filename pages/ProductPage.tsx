@@ -11,10 +11,10 @@ import FlipkartModel from "../Component/utils/FlipkartModel";
 import FilterPopList from "../Component/utils/FilterPopList";
 
 const ProductPage = (props) => {
+  const filterData = props?.filterData;
   const products = props?.productOutput?.products || [];
   const pageType = props?.pageType;
   const parentUrl = props?.parentUrl;
-
   const productOutput = props?.productOutput;
 
   const [isOpen, setIsOpen] = useState(false);
@@ -41,10 +41,10 @@ const ProductPage = (props) => {
   // values will get from props product type and parent url
   // const filterValues = getFilterValues("Product", "/industrial-control/plc");
   // console.log(filterValues);
-  const topFilterValues = resultDataFrom.map((item) => {
+  const topFilterValues = filterData.map((item) => {
     return item.key;
   });
-  const innerFilterValues = resultDataFrom.map((item) => {
+  const innerFilterValues = filterData.map((item) => {
     return item;
   });
   let currentValue = "";
@@ -56,7 +56,7 @@ const ProductPage = (props) => {
     <Fragment>
       <div className="">
         <div className="flex flex-col bg-slate-100	 relative  ">
-          <div className="p-px flex	ml-2	 border-b-2 ">
+          <div className="p-px flex	ml-2	 border-b-2 gap-1">
             <FilterIcon setAllFilter={setAllFilter}></FilterIcon>
             <Filters setPopUp={setPopUp} values={topFilterValues}></Filters>
           </div>
