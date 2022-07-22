@@ -11,10 +11,11 @@ import FlipkartModel from "../Component/utils/FlipkartModel";
 import FilterPopList from "../Component/utils/FilterPopList";
 
 const ProductPage = (props) => {
-  const filterData = props?.filterData;
   const products = props?.productOutput?.products || [];
   const pageType = props?.pageType;
   const parentUrl = props?.parentUrl;
+  const filterData = props?.filterData;
+
   const productOutput = props?.productOutput;
 
   const [isOpen, setIsOpen] = useState(false);
@@ -56,7 +57,7 @@ const ProductPage = (props) => {
     <Fragment>
       <div className="">
         <div className="flex flex-col bg-slate-100	 relative  ">
-          <div className="p-px flex	ml-2	 border-b-2 gap-1">
+          <div className="p-px flex	ml-2	 border-b-2 ">
             <FilterIcon setAllFilter={setAllFilter}></FilterIcon>
             <Filters setPopUp={setPopUp} values={topFilterValues}></Filters>
           </div>

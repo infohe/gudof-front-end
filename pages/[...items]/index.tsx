@@ -6,6 +6,7 @@ import BbPromise from "bluebird";
 import { uniqBy } from "lodash";
 import CategoryPage from "../CategoryPage";
 import ProductPage from "../ProductPage";
+import { getArguments_g } from "../../back_end/aggregate";
 
 import {
   MainPage,
@@ -61,6 +62,7 @@ query Page {
   const page: MainPage = (await client.query({ query: query }))?.data?.pages
     ?.edges[0]?.node;
   const slugType: string = page?.type;
+  console.log(slugType);
 
   if (slugType === "Category") {
     const categoryName: string = page?.title;
@@ -106,6 +108,7 @@ query Page {
         url: node?.url,
       };
     });
+
     output = {
       category: categoryName,
       pageUrl,
@@ -174,7 +177,6 @@ query Page {
       desc: product?.desc,
       productUrl: product?.url,
     };
-
     const query = gql`
       query {
         pageConnection(
@@ -237,6 +239,296 @@ query Page {
       filterData,
       parentUrl: productParentUrl,
     };
+
+    const filterFunction = async () => {
+      const filterResults = await getArguments_g(
+        ["make", "Omron"],
+        ["roHs", "Compliant"]
+      );
+
+      const createQuery = `      query {
+        pageConnection(
+          sort: [url__asc]
+          first: 9999
+          query: {
+            bool: {
+              filter: [
+                { term: { type: { value: "Product" } } }
+                { term: { parentUrl: { value: "/industrial-control/plc" } } }
+              ]
+            }
+          },
+          ${filterResults}
+        ) {
+          edges {
+            node {
+              _source {
+                title
+                url
+                type
+                parentUrl
+                description
+              }
+            }
+          }
+          aggregations
+          count
+          pageInfo {
+            startCursor
+            endCursor
+          }
+        }
+      }`;
+      console.log(createQuery);
+
+      // const query = gql`
+      //   query {
+      //     pageConnection(
+      //       sort: [url__asc]
+      //       first: 9999
+      //       query: {
+      //         bool: {
+      //           filter: [
+      //             { term: { type: { value: "Product" } } }
+      //             { term: { parentUrl: { value: "/industrial-control/plc" } } }
+      //           ]
+      //         }
+      //       }
+      //       aggs: [
+      //         {
+      //           key: "aggs_all_filters"
+      //           value: {
+      //             filter: {
+      //               bool: {
+      //                 filter: [
+      //                   {
+      //                     nested: {
+      //                       path: "string_facets"
+      //                       query: {
+      //                         bool: {
+      //                           filter: [
+      //                             {
+      //                               term: {
+      //                                 string_facets__facet_name: {
+      //                                   value: "make"
+      //                                 }
+      //                               }
+      //                             }
+      //                             {
+      //                               term: {
+      //                                 string_facets__facet_value: {
+      //                                   value: "Omron"
+      //                                 }
+      //                               }
+      //                             }
+      //                           ]
+      //                         }
+      //                       }
+      //                     }
+      //                   }
+      //                   {
+      //                     nested: {
+      //                       path: "string_facets"
+      //                       query: {
+      //                         bool: {
+      //                           filter: [
+      //                             {
+      //                               term: {
+      //                                 string_facets__facet_name: {
+      //                                   value: "roHs"
+      //                                 }
+      //                               }
+      //                             }
+      //                             {
+      //                               term: {
+      //                                 string_facets__facet_value: {
+      //                                   value: "Compliant"
+      //                                 }
+      //                               }
+      //                             }
+      //                           ]
+      //                         }
+      //                       }
+      //                     }
+      //                   }
+      //                 ]
+      //               }
+      //             }
+      //             aggs: {
+      //               key: "facets"
+      //               value: {
+      //                 nested: { path: "string_facets" }
+      //                 aggs: {
+      //                   key: "names"
+      //                   value: {
+      //                     terms: { field: string_facets__facet_name }
+      //                     aggs: {
+      //                       key: "values"
+      //                       value: {
+      //                         terms: { field: string_facets__facet_value }
+      //                       }
+      //                     }
+      //                   }
+      //                 }
+      //               }
+      //             }
+      //           }
+      //         }
+      //         {
+      //           key: "aggs_make"
+      //           value: {
+      //             filter: {
+      //               bool: {
+      //                 filter: [
+      //                   {
+      //                     nested: {
+      //                       path: "string_facets"
+      //                       query: {
+      //                         bool: {
+      //                           filter: [
+      //                             {
+      //                               term: {
+      //                                 string_facets__facet_name: {
+      //                                   value: "roHs"
+      //                                 }
+      //                               }
+      //                             }
+      //                             {
+      //                               term: {
+      //                                 string_facets__facet_value: {
+      //                                   value: "Compliant"
+      //                                 }
+      //                               }
+      //                             }
+      //                           ]
+      //                         }
+      //                       }
+      //                     }
+      //                   }
+      //                 ]
+      //               }
+      //             }
+      //             aggs: {
+      //               key: "facets"
+      //               value: {
+      //                 nested: { path: "string_facets" }
+      //                 aggs: {
+      //                   key: "aggs_special"
+      //                   value: {
+      //                     filter: {
+      //                       term: {
+      //                         string_facets__facet_name: { value: "make" }
+      //                       }
+      //                     }
+      //                     aggs: {
+      //                       key: "names"
+      //                       value: {
+      //                         terms: { field: string_facets__facet_name }
+      //                         aggs: {
+      //                           key: "values"
+      //                           value: {
+      //                             terms: { field: string_facets__facet_value }
+      //                           }
+      //                         }
+      //                       }
+      //                     }
+      //                   }
+      //                 }
+      //               }
+      //             }
+      //           }
+      //         }
+      //         {
+      //           key: "aggs_rohs"
+      //           value: {
+      //             filter: {
+      //               bool: {
+      //                 filter: [
+      //                   {
+      //                     nested: {
+      //                       path: "string_facets"
+      //                       query: {
+      //                         bool: {
+      //                           filter: [
+      //                             {
+      //                               term: {
+      //                                 string_facets__facet_name: {
+      //                                   value: "make"
+      //                                 }
+      //                               }
+      //                             }
+      //                             {
+      //                               term: {
+      //                                 string_facets__facet_value: {
+      //                                   value: "Omron"
+      //                                 }
+      //                               }
+      //                             }
+      //                           ]
+      //                         }
+      //                       }
+      //                     }
+      //                   }
+      //                 ]
+      //               }
+      //             }
+      //             aggs: {
+      //               key: "facets"
+      //               value: {
+      //                 nested: { path: "string_facets" }
+      //                 aggs: {
+      //                   key: "aggs_special"
+      //                   value: {
+      //                     filter: {
+      //                       term: {
+      //                         string_facets__facet_name: { value: "roHs" }
+      //                       }
+      //                     }
+      //                     aggs: {
+      //                       key: "names"
+      //                       value: {
+      //                         terms: { field: string_facets__facet_name }
+      //                         aggs: {
+      //                           key: "values"
+      //                           value: {
+      //                             terms: { field: string_facets__facet_value }
+      //                           }
+      //                         }
+      //                       }
+      //                     }
+      //                   }
+      //                 }
+      //               }
+      //             }
+      //           }
+      //         }
+      //       ]
+      //     ) {
+      //       edges {
+      //         node {
+      //           _source {
+      //             title
+      //             url
+      //             type
+      //             parentUrl
+      //             description
+      //           }
+      //         }
+      //       }
+      //       aggregations
+      //       count
+      //       pageInfo {
+      //         startCursor
+      //         endCursor
+      //       }
+      //     }
+      //   }
+      // `;
+      // const query = gql``;
+      // const filteredValues = (await client.query({ query: query }))?.data;
+    };
+
+    filterFunction();
   }
   return {
     props: {
@@ -292,8 +584,8 @@ const index = (props) => {
         <ProductPage
           productOutput={productOutput}
           pageType={pageType}
-          parentUrl={parentUrl}
           filterData={filterData}
+          parentUrl={parentUrl}
         ></ProductPage>
       </div>
     );

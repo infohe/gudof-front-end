@@ -267,9 +267,8 @@ const aggregate_g = (facet_name, facet_value) => {
 
 // main function
 
-const getArguments_g = (...arguments) => {
-  const arrayArgs = Array.from(arguments);
-  console.log(arrayArgs);
+export const getArguments_g = (...args) => {
+  const arrayArgs = Array.from(args);
   const nestedItems = arrayArgs.map((item) => {
     return aggregate_g(item[0], item[1]);
   });
@@ -293,12 +292,14 @@ const getArguments_g = (...arguments) => {
             filter: callAggs,
           },
         },
-        key: `${firstByItem[i]}_facet`,
-        value: {
-          nested: {
-            path: "string_facets",
+        aggs: {
+          key: `facet`,
+          value: {
+            nested: {
+              path: "string_facets",
+            },
+            aggs: aggs_special_g(firstByItem[i]),
           },
-          aggs: aggs_special_g(firstByItem[i]),
         },
       },
     };
@@ -313,19 +314,19 @@ const getArguments_g = (...arguments) => {
               filter: nestedItems,
             },
           },
-        },
-      },
-      {
-        key: "facets",
-        value: {
-          nested: { path: "string_facets" },
           aggs: {
-            key: "names",
+            key: "facets",
             value: {
-              terms: { field: "string_facets__facet_name" },
+              nested: { path: "string_facets" },
               aggs: {
-                key: "values",
-                value: { terms: { field: "string_facets__facet_value" } },
+                key: "names",
+                value: {
+                  terms: { field: "string_facets__facet_name" },
+                  aggs: {
+                    key: "values",
+                    value: { terms: { field: "string_facets__facet_value" } },
+                  },
+                },
               },
             },
           },
@@ -335,11 +336,12 @@ const getArguments_g = (...arguments) => {
   };
 
   filteredItem.forEach((item) => {
-    output.aggs.push({ ...item, ...output.aggs });
+    output.aggs.push({ ...item });
+    // output.aggs.push({ ...item });
     // output.aggs = { ...item, ...output.aggs };
   });
   return output;
 };
 
 const result_g = getArguments_g(["make", "Omron"], ["roHs", "Compliant"]);
-console.log(JSON.stringify(result_g, null, 2));
+// console.log(JSON.stringify(result_g, null, 2));
